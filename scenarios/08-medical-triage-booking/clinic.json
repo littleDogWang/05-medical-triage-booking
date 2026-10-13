@@ -1,0 +1,6 @@
+{
+  "version": "2026-10-12",
+  "clinic": "Agora Family Clinic",
+  "hours": "Monday-Friday 09:00-17:00",
+  "appointmentTypes": ["general consultation", "follow-up visit"]
+}
