@@ -34,7 +34,7 @@ export async function verifyClinicWorkflow() {
     const initial = await manage('list');
     assert.equal(initial.appointments.length, 1);
     assert.equal(initial.appointments[0].appointment_id, 'APT-1001');
-    const openings = await search({ preferred_date: '2030-10-15', preferred_time: '15:00', doctor_id: 'maya-chen' });
+    const openings = await search({ preferred_date: '2030-10-15', preferred_time: '15:00', doctor_id: 'maya-bennett' });
     assert.equal(openings.requested_time_available, true);
     assert.equal(openings.slots.length, 1);
     const slot = openings.slots[0];
@@ -53,7 +53,7 @@ export async function verifyClinicWorkflow() {
     await manage('reschedule', booked.appointment.appointment_id, 'missing', true, 409);
     const unchanged = await manage('list');
     assert.equal(unchanged.appointments.find((a: { appointment_id: string }) => a.appointment_id === booked.appointment.appointment_id).slot_id, slot.slot_id);
-    const alternatives = await search({ preferred_date: '2030-10-16', preferred_time: '11:00', doctor_id: 'maya-chen' });
+    const alternatives = await search({ preferred_date: '2030-10-16', preferred_time: '11:00', doctor_id: 'maya-bennett' });
     const target = alternatives.slots[0];
     await manage('reschedule', booked.appointment.appointment_id, target.slot_id, false, 409);
     const moved = await manage('reschedule', booked.appointment.appointment_id, target.slot_id, true);
@@ -72,7 +72,7 @@ export async function verifyClinicWorkflow() {
     await manage('cancel', 'APT-1001', '', true, 404);
     const newPatient = await search({ doctor_id: 'daniel-brooks' });
     assert.equal(newPatient.requested_time_available, false);
-    assert(newPatient.slots.every((s: { doctor_id: string }) => s.doctor_id === 'maya-chen'), 'Closed panels and pediatric doctors are excluded');
+    assert(newPatient.slots.every((s: { doctor_id: string }) => s.doctor_id === 'maya-bennett'), 'Closed panels and pediatric doctors are excluded');
     const newSlot = newPatient.slots[0];
     const concurrent = await Promise.all([book(newSlot.slot_id), book(newSlot.slot_id)]);
     assert.equal(concurrent[0].appointment.appointment_id, concurrent[1].appointment.appointment_id, 'Repeated concurrent requests do not double-book');
@@ -83,7 +83,7 @@ export async function verifyClinicWorkflow() {
     await call('manage_appointment', { action: 'list' }, session.session_id, 403);
 
     await identify('established', 'Jamie', 'Rivera', '2016-09-08');
-    const child = await search({ doctor_id: 'maya-chen' });
+    const child = await search({ doctor_id: 'maya-bennett' });
     assert.equal(child.requested_time_available, false);
     assert(child.slots.every((s: { doctor_id: string }) => s.doctor_id === 'sofia-patel'));
     const weekend = await search({ preferred_date: '2030-10-19' });

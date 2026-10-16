@@ -86,7 +86,7 @@ export function createClinicSession(now = new Date()) {
     }
   }
   const patients: Patient[] = clinic.patients.map((p) => ({ ...p, is_new: false }));
-  const existing = slots.find((s) => s.doctor_id === 'maya-chen' && s.date > clock.date)!;
+  const existing = slots.find((s) => s.doctor_id === 'maya-bennett' && s.date > clock.date)!;
   const session: ClinicSession = {
     id: randomUUID(), now, expires_at: Date.now() + 2 * 60 * 60 * 1000,
     patients, slots,

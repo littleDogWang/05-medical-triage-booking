@@ -1,15 +1,15 @@
 {
   "version": "2026-10-16",
   "clinic": "Agora Family Clinic",
-  "hours": "Monday-Friday 09:00-17:00",
+  "hours": "Monday-Friday 9:00 AM-5:00 PM, U.S. Eastern Time",
   "timezone": "America/New_York",
-  "address": "120 Maple Street",
+  "address": "120 Maple Street, Boston, MA 02110, United States",
   "parking": "Free parking behind the clinic. Step-free access is available at the main entrance.",
   "policy": "General consultations and follow-up visits only. Prescription, test-result and billing questions need the clinic team. This assistant cannot send messages, place emergency calls or transfer to a person.",
   "appointmentTypes": ["general_consultation", "follow_up"],
   "appointment_times": ["09:30", "11:00", "14:00", "15:00"],
   "doctors": [
-    { "id": "maya-chen", "name": "Dr. Maya Chen", "specialty": "Family medicine for adults", "minimum_age": 18, "maximum_age": 120, "accepting_new_patients": true },
+    { "id": "maya-bennett", "name": "Dr. Maya Bennett", "specialty": "Family medicine for adults", "minimum_age": 18, "maximum_age": 120, "accepting_new_patients": true },
     { "id": "daniel-brooks", "name": "Dr. Daniel Brooks", "specialty": "Internal medicine for adults", "minimum_age": 18, "maximum_age": 120, "accepting_new_patients": false },
     { "id": "sofia-patel", "name": "Dr. Sofia Patel", "specialty": "Pediatrics", "minimum_age": 0, "maximum_age": 17, "accepting_new_patients": true }
   ],

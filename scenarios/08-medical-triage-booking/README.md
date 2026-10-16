@@ -23,13 +23,13 @@ Monday-Friday at 09:30, 11:00, 14:00 and 15:00. Past openings are not offered.
 
 | Doctor | Patients | New patients |
 | --- | --- | --- |
-| Dr. Maya Chen | Adults | Accepted |
+| Dr. Maya Bennett | Adults | Accepted |
 | Dr. Daniel Brooks | Adults | Existing patients only |
 | Dr. Sofia Patel | Children under 18 | Accepted |
 
 Fictional existing identities:
 
-- Alex Morgan, April 12, 1988. Has a follow-up with Dr. Maya Chen on the next
+- Alex Morgan, April 12, 1988. Has a follow-up with Dr. Maya Bennett on the next
   weekday after the call's clinic date, at 09:30.
 - Jamie Rivera, September 8, 2016. Has no appointment.
 - A new caller can provide their own fictional name and date of birth.
@@ -95,3 +95,7 @@ existing SDK and RTC/RTM lifecycle.
 Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
 
 TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.
+
+## U.S. example data
+
+The fictional clinic address is in Boston, Massachusetts, and appointment times use `America/New_York`. Dr. Maya Bennett is the configured family-medicine doctor; doctor IDs remain consistent across fixtures, seeded appointments and tool schemas.

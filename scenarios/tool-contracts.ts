@@ -49,7 +49,7 @@ export function getScenarioTools(_scenarioId: string, sessionId: string, baseUrl
     tool('find_open_times', 'Search openings for the identified patient. Enforces adult/pediatric routing and new-patient panels. Search again after a preference changes. Only offer returned slots; explain when they are alternatives.', {
       preferred_date: string('Requested date in clinic time, YYYY-MM-DD. Empty string if no date was requested.'),
       preferred_time: string('Exact requested local time, HH:mm. Empty string if flexible.'),
-      doctor_id: choice(['', 'maya-chen', 'daniel-brooks', 'sofia-patel'], 'Preferred doctor ID or empty string for any eligible doctor.'),
+      doctor_id: choice(['', 'maya-bennett', 'daniel-brooks', 'sofia-patel'], 'Preferred doctor ID or empty string for any eligible doctor.'),
       time_of_day: choice(['any', 'morning', 'afternoon'], 'Keep the caller\'s other preferences when one preference changes.'),
     }),
     tool('book_appointment', 'Book an opening returned by find_open_times after the caller selects it. Only a successful result permits saying it is booked. Repeating the same booking does not create a duplicate.', {
