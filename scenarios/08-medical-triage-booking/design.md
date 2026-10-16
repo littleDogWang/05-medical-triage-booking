@@ -1,20 +1,50 @@
-# 患者来电分诊与预约设计
+# Clinic reception and appointment design
 
-## 定位
+## Positioning
 
-优先级 P8。只做受控的演示版，医疗安全和真实预约系统是上线前置条件。
+Priority P8. A controlled, single-agent simulation with a concrete clinic,
+named doctors, patient identities and bookable openings. Real medical systems
+and medical safety review remain prerequisites for a production service.
 
-## 目标流程
+## Workflow
 
-Agent 识别来电目的，收集有限的预约信息，回答固定营业时间/流程 FAQ；遇到紧急症状、诊断请求或无法判断的情况，立即提示紧急医疗渠道或人工升级。
+Identify a new or established patient by full name and date of birth. Search
+openings for the patient's age, requested doctor and scheduling preferences.
+Offer returned slots, book after the caller chooses, and report the tool result.
+Existing appointments can be listed, moved or cancelled. Policy questions can
+interrupt the task without losing its context. Emergencies take priority before
+identity; after escalation, ordinary scheduling is blocked.
 
-## 第一版范围
+## Implementation
 
-- 渠道：Web/RTC 模拟来电。
-- 数据：固定 FAQ 和模拟预约时段。
-- 工具：读取模拟时段、提交人工预约请求。
-- 暂不做：诊断、处方续配、真实患者系统、真实 SIP/IVR。
+`clinic.json` contains fixed practice information and fictional records.
+`clinic.ts` owns call-isolated state in a process-global Map, following scenario
+04's single-process session model. Slots roll across 14 days in clinic time.
+Each session lasts two hours and resets on a process restart. No database or
+external business service is required.
 
-## 安全边界
+Six REST tools share a route handler. The invite route creates a session and
+embeds its opaque ID in the tool URLs; it never asks the LLM to supply a session
+ID. Patient identity and slot ownership are checked by the backend. Synchronous
+validation and mutation prevent duplicate slot use in the supported single Node
+process. Booking retries return the active record, cancellation releases the
+slot, and failed rescheduling preserves the original record.
 
-Agent 不进行诊断，不给出个体化医疗结论，不声称已完成真实预约；紧急情况优先给出当地急救/人工渠道提示。
+A missing tool origin blocks agent creation. `pnpm dev:clinic` can supply an
+ephemeral HTTPS relay to these six local tools. The relay excludes all other app
+routes and changes no env files. Direct local API verification needs no relay.
+
+## Voice behavior
+
+The model must call a tool before describing a successful action, use returned
+doctor/date/time values, ask one question per turn, and speak natural sentences
+without brackets, Markdown notes, internal IDs or stage directions. Simulation
+boundaries remain truthful, without repeating a request disclaimer after an
+actual simulated booking.
+
+## Exclusions
+
+No diagnosis, prescription, real patient system, payments, outbound messages,
+real human handoff or emergency dispatch. The emergency tool records a local
+escalation and directs the caller to local emergency services. Multi-worker and
+stateless deployments require replacing the process-local store.

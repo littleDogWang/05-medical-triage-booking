@@ -1,3 +1,4 @@
+import { verifyClinicWorkflow } from './verify-clinic-workflow';
 import { AgoraClient, Agent } from 'agora-agents';
 import { RtcTokenBuilder } from 'agora-token';
 import { NextRequest } from 'next/server';
@@ -311,15 +312,21 @@ async function verifyInviteAgentValidation() {
 }
 
 async function verifyInviteAgentSuccess() {
+  const originalToolOrigin = process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL;
+  process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL = 'https://clinic.example.com';
   const { POST: inviteAgent } = await import('../app/api/invite-agent/route');
   const originalCreateSession = Agent.prototype.createSession;
+  let capturedInstructions = '';
+  let capturedTools = '';
   let capturedSessionConfig: {
     channel?: string;
     agentUid?: string;
     remoteUids?: string[];
   } | null = null;
 
-  Agent.prototype.createSession = ((sessionConfig: unknown) => {
+  Agent.prototype.createSession = (function (this: Agent, sessionConfig: unknown) {
+    capturedInstructions = this.instructions ?? '';
+    capturedTools = JSON.stringify(this.llm?.tools ?? []);
     capturedSessionConfig = sessionConfig as {
       channel?: string;
       agentUid?: string;
@@ -353,6 +360,8 @@ async function verifyInviteAgentSuccess() {
       body.state === 'RUNNING',
       'POST /api/invite-agent should return RUNNING state',
     );
+    assert(capturedInstructions.includes('Everything you output is spoken') && capturedInstructions.includes('# Clinic clock'), 'Invite must include the spoken workflow and clinic clock');
+    assert(capturedTools.includes('book_appointment') && capturedTools.includes('/sessions/'), 'Invite must register session-scoped clinic tools');
     assert(
       capturedSessionConfig !== null,
       'POST /api/invite-agent should call createSession',
@@ -378,6 +387,42 @@ async function verifyInviteAgentSuccess() {
     );
   } finally {
     Agent.prototype.createSession = originalCreateSession;
+    if (originalToolOrigin === undefined) delete process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL;
+    else process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL = originalToolOrigin;
+  }
+}
+
+async function verifyClinicInviteFailures() {
+  const { POST: inviteAgent } = await import('../app/api/invite-agent/route');
+  const { runClinicTool } = await import('../scenarios/08-medical-triage-booking/clinic');
+  const originalOrigin = process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL;
+  const originalCreateSession = Agent.prototype.createSession;
+  let createCalls = 0;
+  let sessionId = '';
+  const request = () => new NextRequest('http://localhost:3000/api/invite-agent', {
+    method: 'POST', body: JSON.stringify({ requester_id: '4321', channel_name: 'clinic-test' }),
+  });
+  Agent.prototype.createSession = (function (this: Agent) {
+    createCalls++;
+    const tools = this.llm?.tools ?? [];
+    sessionId = tools[0]?.server.url.split('/sessions/')[1]?.split('/')[0] ?? '';
+    return { start: async () => { throw new Error('Simulated agent startup failure'); } };
+  }) as unknown as typeof Agent.prototype.createSession;
+  try {
+    delete process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL;
+    const missing = await inviteAgent(request());
+    assert(missing.status === 500 && createCalls === 1, 'Without tools, startup must still be attempted and actual startup failure reported');
+    process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL = 'https://clinic.example.com';
+    const failed = await inviteAgent(request());
+    assert(failed.status === 500 && sessionId, 'A failed live startup must report failure');
+    let removed = false;
+    try { runClinicTool(sessionId, 'read_clinic_information', {}); }
+    catch (error) { removed = error instanceof Error && error.message.includes('expired'); }
+    assert(removed, 'Failed agent startup must discard its clinic session');
+  } finally {
+    Agent.prototype.createSession = originalCreateSession;
+    if (originalOrigin === undefined) delete process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL;
+    else process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL = originalOrigin;
   }
 }
 
@@ -453,8 +498,10 @@ async function main() {
   await verifyChatCompletionsSseDone();
   await verifyInviteAgentValidation();
   await verifyInviteAgentSuccess();
+  await verifyClinicInviteFailures();
   await verifyStopConversationValidation();
   await verifyStopConversationSuccess();
+  await verifyClinicWorkflow();
 
   console.log('API contract checks passed');
 }

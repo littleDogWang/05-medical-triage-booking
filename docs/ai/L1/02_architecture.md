@@ -101,3 +101,7 @@ Agora Cloud
 
 - [conversation_lifecycle.md](L2/conversation_lifecycle.md) — Detailed bootstrapping and teardown timeline.
 - [transcript_pipeline.md](L2/transcript_pipeline.md) — Event mapping, UID remap, in-progress/completed segmentation.
+
+## Scenario 08 override
+
+The invite route creates a two-hour, call-isolated fictional clinic session and binds six REST tools to its opaque session URL. `clinic.ts` owns identity, rolling slots and appointments in a process-global Map. State does not survive a process restart and is not shared across workers.

@@ -11,7 +11,9 @@ import {
 import { ClientStartRequest, AgentResponse } from '@/types/conversation';
 import { DEFAULT_AGENT_UID } from '@/lib/agora';
 import { getScenarioConfig, getScenarioPrompt } from '@/scenarios';
-import { getScenarioTools } from '@/scenarios/tool-contracts';
+import clinicData from '@/scenarios/08-medical-triage-booking/clinic.json';
+import { getToolBaseUrl, getScenarioTools } from '@/scenarios/tool-contracts';
+import { ClinicError, clinicClock, createClinicSession, deleteClinicSession } from '@/scenarios/08-medical-triage-booking/clinic';
 
 // agentUid identifies the AI in the RTC channel and shares its default with the client.
 const agentUid = String(DEFAULT_AGENT_UID);
@@ -23,6 +25,7 @@ function requireEnv(name: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  let clinicSessionId: string | undefined;
   try {
     // --- 1. Parse request ---
 
@@ -46,7 +49,10 @@ export async function POST(request: NextRequest) {
     // AgoraClient authenticates API calls to the Agora Conversational AI service.
     // area: change to Area.EU or Area.AP for European or Asia-Pacific deployments.
     const scenario = getScenarioConfig();
-    const scenarioTools = getScenarioTools(scenario.id);
+    const toolOrigin = getToolBaseUrl();
+    const clinicSession = toolOrigin ? createClinicSession() : { ...clinicClock(), timezone: clinicData.timezone };
+    clinicSessionId = 'session_id' in clinicSession ? clinicSession.session_id : undefined;
+    const scenarioTools = toolOrigin && clinicSessionId ? getScenarioTools(scenario.id, clinicSessionId, toolOrigin) : [];
     const client = new AgoraClient({
       area: Area.US,
       appId,
@@ -57,7 +63,7 @@ export async function POST(request: NextRequest) {
     // Omit vendor API keys for supported models — AgentKit infers reseller presets on start (see Agora Console / billing).
     const agent = new Agent({
       client,
-      instructions: getScenarioPrompt(scenario.id),
+      instructions: `${getScenarioPrompt(scenario.id, scenarioTools.length > 0)}\n\n# Clinic clock\nToday is ${clinicSession.date}, current time ${clinicSession.time}, timezone ${clinicSession.timezone}. Interpret tomorrow relative to this clinic date.`,
       greeting: scenario.greeting,
       failureMessage: 'Please wait a moment.',
       maxHistory: 50,
@@ -81,8 +87,8 @@ export async function POST(request: NextRequest) {
         },
       },
       // RTM is required for transcript events in the browser client.
-      // enable_tools is required for MCP tool invocation.
-      advancedFeatures: { enable_rtm: true, enable_tools: true },
+      // enable_tools is required for the session-scoped clinic REST tools.
+      advancedFeatures: { enable_rtm: true, enable_tools: scenarioTools.length > 0 },
       // Required for browser RTM events:
       // - data_channel: 'rtm' enables RTM delivery path for state/metrics/errors
       // - enable_error_message emits AGENT_ERROR payloads
@@ -113,7 +119,7 @@ export async function POST(request: NextRequest) {
           greetingMessage: scenario.greeting,
           failureMessage: 'Please wait a moment.',
           maxHistory: 15,
-          tools: scenarioTools.length > 0 ? scenarioTools : undefined,
+          tools: scenarioTools,
           params: {
             max_tokens: 1024,
             temperature: 0.7,
@@ -165,6 +171,7 @@ export async function POST(request: NextRequest) {
       state: 'RUNNING',
     } as AgentResponse);
   } catch (error) {
+    if (clinicSessionId) deleteClinicSession(clinicSessionId);
     console.error('Error starting conversation:', error);
     return NextResponse.json(
       {
@@ -173,7 +180,7 @@ export async function POST(request: NextRequest) {
             ? error.message
             : 'Failed to start conversation',
       },
-      { status: 500 },
+      { status: error instanceof ClinicError ? error.status : 500 },
     );
   }
 }

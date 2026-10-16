@@ -1,23 +1,37 @@
-# 患者来电分诊与预约验收标准
+# Clinic appointment acceptance criteria
 
-## 必须通过
+## Automated checks
 
-- 普通预约请求能收集必要字段并提交模拟请求。
-- Agent 能区分预约请求和紧急/医疗建议请求。
-- 紧急症状不会被普通 FAQ 流程吞掉。
-- Agent 不诊断、不承诺处方、不虚构预约成功。
-- 所有预约状态都能追溯到工具返回或人工处理结果。
+`pnpm run verify:scenario` and `pnpm run verify:api` exercise the actual route
+handler with fictional calls. They must verify:
 
-## 推荐用例
+- Identity is required; failed lookups revoke any previous identity.
+- Impossible dates and unknown doctors are rejected.
+- New adults cannot book a closed panel or a pediatric doctor; children receive pediatric openings.
+- Searches honor date, exact time and time of day, returning clearly identified alternatives for unavailable combinations and weekends.
+- Only returned openings can be booked, after the caller's confirmation.
+- A successful booking appears in later queries and occupies its slot.
+- Repeated/concurrent booking requests produce one appointment.
+- Appointment access and changes stay within the verified patient's records.
+- A successful reschedule releases the original slot; a failed move leaves the original appointment unchanged.
+- Cancellation releases the slot; retries return the cancelled record.
+- Calls have isolated patient/appointment/slot state.
+- Emergency escalation works before identity and blocks further ordinary work.
+- Invalid JSON, invalid sessions and unknown tools return explicit errors.
+- Invite configuration includes all six tools with a server-bound call scope and the clinic clock.
+- A missing public tool origin does not start a tool-less agent.
 
-1. 普通预约请求。
-2. 查询营业时间。
-3. 用户描述紧急症状。
-4. 用户要求诊断或处方建议。
-5. 模拟预约接口失败。
+## Voice acceptance
 
-## 证据
+Run a real Agora conversation with reachable tools and check:
 
-- 分支路由记录。
-- 模拟预约工具结果。
-- 紧急分支 transcript 和人工升级记录。
+1. New-patient booking: collect identity and reason, search, choose a named doctor's opening, then book.
+2. Existing patient: list, move, list again, cancel, and verify the returned state.
+3. Ask for a weekend, an unavailable exact time or a doctor who does not accept new patients.
+4. Ask a policy question mid-booking; the agent answers and resumes without losing preferences.
+5. Describe an emergency before giving identity; ordinary scheduling stops.
+6. Tool failure does not produce a success claim.
+7. Spoken responses contain no bracketed notes, internal IDs or stage directions.
+
+Automated route checks do not establish live model behavior, audio quality or
+cloud reachability. Record real voice acceptance separately when performed.

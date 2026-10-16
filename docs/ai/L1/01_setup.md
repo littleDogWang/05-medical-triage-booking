@@ -106,3 +106,7 @@ When setup docs/config change:
 
 - [conversation_lifecycle.md](L2/conversation_lifecycle.md) — Full start/join/teardown sequence.
 - [transcript_pipeline.md](L2/transcript_pipeline.md) — RTM transcript/event pipeline internals.
+
+## Scenario 08 override
+
+Ordinary dev/start uses public clinic facts without tools; `TOP_TEN_SCENARIO_TOOL_BASE_URL` optionally enables tool actions. Local API checks use `pnpm run verify:scenario` without a relay or cloud calls. Doctor checks still cover only the base local prerequisites and credentials.

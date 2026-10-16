@@ -99,3 +99,14 @@ From `types/conversation.ts` (high-use):
 
 - [conversation_lifecycle.md](L2/conversation_lifecycle.md) — How route contracts are used in sequence.
 - [transcript_pipeline.md](L2/transcript_pipeline.md) — Event-level contract mapping.
+
+## Scenario 08 override
+
+POST `/api/scenarios/08-medical-triage-booking/sessions` creates a fictional call (201), returning `session_id`, `date`, `time`, and `timezone`. POST `sessions/{sessionId}/{toolName}` runs one of six tools. See the scenario README for exact required arguments. Errors use 400 for malformed input, 403 for missing patient identity, 404 for an unknown session/patient/appointment, and 409 for workflow conflicts. Missing/invalid HTTPS tool configuration selects local discussion without creating a tool session. The old appointment-request route returns 410 and never claims to submit a request.
+
+
+## Local conversation and optional tools
+
+Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
+
+TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.

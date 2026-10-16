@@ -84,3 +84,7 @@ Pass `rtmEngine` directly to `AgoraVoiceAI.init`; the nested `rtmConfig` is no l
 
 - [conversation_lifecycle.md](L2/conversation_lifecycle.md) — Start/stop race and lifecycle ownership details.
 - [transcript_pipeline.md](L2/transcript_pipeline.md) — Transcript edge cases and failure surfaces.
+
+## Scenario 08 override
+
+Start scenario 08 with local public clinic context by default. `localhost` is not a cloud tool origin. Configure a public HTTPS endpoint only to enable the existing appointment tools. Clinic sessions are process-local and per call; a restart resets the fixture, and multi-worker/stateless deployments need shared storage. A tool result must precede a spoken success claim; never read bracketed notes or technical IDs aloud.

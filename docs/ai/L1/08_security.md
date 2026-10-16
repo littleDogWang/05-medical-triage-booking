@@ -94,3 +94,7 @@ Re-audit security docs when any of these change:
 
 - [conversation_lifecycle.md](L2/conversation_lifecycle.md) — Token issuance and renewal sequence details.
 - [transcript_pipeline.md](L2/transcript_pipeline.md) — RTM event surfaces and error propagation boundaries.
+
+## Scenario 08 override
+
+Scenario 08 uses only fictional patient records, with random session IDs embedded server-side in tool URLs. Public practice information excludes patient fixtures. Identity and appointment ownership are checked within each call; this is not production authentication. Do not enter real medical data into this simulation.

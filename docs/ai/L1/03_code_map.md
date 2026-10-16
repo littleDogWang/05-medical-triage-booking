@@ -87,3 +87,7 @@ types/               Shared TypeScript route/component contracts
 - [conversation_lifecycle.md](L2/conversation_lifecycle.md) — Cross-file call path during start/stop.
 - [from_scratch_bootstrap.md](L2/from_scratch_bootstrap.md) — Official baseline map for recreating the quickstart recipe.
 - [transcript_pipeline.md](L2/transcript_pipeline.md) — Mapping and rendering flow from toolkit events.
+
+## Scenario 08 override
+
+`scenarios/08-medical-triage-booking/clinic.ts` implements clinic state and rules; `clinic.json` supplies doctors/patients/policy; `scenarios/tool-contracts.ts` defines six tools. Session creation and action routes live under `app/api/scenarios/08-medical-triage-booking/sessions/`. `scripts/verify-clinic-workflow.ts` covers route-level workflows.

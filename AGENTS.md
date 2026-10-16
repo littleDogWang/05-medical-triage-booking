@@ -2,6 +2,22 @@
 
 This guide is for coding agents making changes in `agent-quickstart-nextjs`.
 
+## Shared scenario UI requirements
+
+These three requirements apply to every scenario and are mandatory for UI implementation and acceptance:
+
+1. **Use a scenario-specific initial Dialog**: its title, description, primary action, loading/error messages and accessibility labels must explain the current scenario. Use a task-specific action instead of a generic Start Conversation entry.
+2. **Keep the scenario identity visible**: after closing the initial Dialog, the scenario name, identifier and short purpose must remain visible in the desktop and mobile interface. Activity status must not replace the scenario name.
+3. **Use our UIkit components**: adopt actual component source and the accompanying theme/styles from [shczhen/agent-ui](https://github.com/shczhen/agent-ui), connected to real session data and actions. A visual imitation or continued use of the previous UIkit alone does not satisfy this requirement.
+
+Inspect the rendered initial Dialog and main interface, and verify actual UIkit component usage. Each scenario plan specifies its own copy, identity and component mapping.
+
+The shared specification lives at `scenario-repos/SCENARIO_UI_RULES.md` in the workspace (`../SCENARIO_UI_RULES.md` relative to this file). This section contains all three minimum requirements and remains usable when the repository is cloned independently. Synchronize this section across repositories when shared rules change. Identify the 00 base scenario as a basic voice demo.
+
+## Repository language
+
+Use English for repository content, including documentation, code comments, UI copy and examples. Keep future additions and edits free of Chinese text.
+
 ## How to Load
 
 This repository uses progressive disclosure documentation. Docs live under `docs/ai/` in three levels.
@@ -21,6 +37,23 @@ The sections below (Start Here, Patterns, Anti-Patterns, etc.) remain the canoni
 - Use [docs/ai/L1/L2/from_scratch_bootstrap.md](docs/ai/L1/L2/from_scratch_bootstrap.md) for the baseline implementation map.
 - Use [docs/ai/L1/L2/transcript_pipeline.md](docs/ai/L1/L2/transcript_pipeline.md) for transcript and RTM behavior.
 - For layout and responsibilities inside `components/`, `app/api/`, and `lib/`, use [docs/ai/L1/03_code_map.md](docs/ai/L1/03_code_map.md) and [docs/ai/L1/02_architecture.md](docs/ai/L1/02_architecture.md).
+
+## Scenario 08 appointment workflow
+
+This independent repo runs the simulated Agora Family Clinic. See
+`scenarios/08-medical-triage-booking/README.md` for identities and API payloads.
+`clinic.ts` owns patient identity, doctor eligibility, rolling slots and
+appointments in a per-call process-local store. Six typed REST tools under
+`app/api/scenarios/08-medical-triage-booking/sessions/` enforce the workflow.
+Keep server-bound session scope, identity checks, slot selection, caller
+confirmation, duplicate handling and atomic rescheduling intact. An escalated
+call cannot return to ordinary scheduling. Never replace actual state changes
+with accepted-but-unsaved request responses.
+
+Ordinary local conversations need no relay or
+`TOP_TEN_SCENARIO_TOOL_BASE_URL`; configure a public HTTPS origin only for tools. Local `pnpm run verify:scenario` checks need no
+cloud service. Do not claim live voice acceptance from route tests. State lasts
+two hours and resets on process restart; this is a single-process simulation.
 
 ## Current System Shape
 
@@ -219,3 +252,10 @@ Before finishing a change:
 | fix docs        | Close findings from a docs review or test run                |
 
 The generator and tester live in the [AgoraIO-Community/ai-devkit](https://github.com/AgoraIO-Community/ai-devkit) skill set. See the [progressive disclosure standard](https://github.com/AgoraIO-Community/ai-devkit/blob/main/docs/progressive-disclosure-standard.md) for the full specification.
+
+
+## Local conversation and optional tools
+
+Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
+
+TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.

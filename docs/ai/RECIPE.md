@@ -81,3 +81,19 @@ Do not recreate Agora ConvoAI integration from memory. Provider schemas, SDK bui
 3. Run `pnpm run doctor` and `pnpm run dev`.
 4. Validate with `pnpm run verify` before sharing modifications.
 5. Customize agent behavior and UI using the supported surfaces above.
+
+## Scenario 08 extension
+
+The shared RTC/RTM lifecycle stays unchanged. This independent scenario adds six
+server-bound REST tools for a local simulated clinic, a two-hour per-call store,
+and an optional public HTTPS tool origin for appointment actions. Direct local API
+checks need no public origin. Refer to the scenario README for the tool schemas,
+fictional identities and exact limits. The retired appointment-request endpoint
+returns 410 rather than acknowledging an unsaved request.
+
+
+## Local conversation and optional tools
+
+Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
+
+TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.

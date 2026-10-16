@@ -16,15 +16,3 @@ export function triageIntent(description: string): TriageOutcome {
     ? 'emergency_escalation'
     : 'appointment_request';
 }
-
-export function buildAppointmentRequest(
-  requestId: string,
-  details: Record<string, string>,
-) {
-  return {
-    request_id: requestId,
-    details,
-    status: 'appointment_request_received' as const,
-    booking_confirmed: false,
-  };
-}
