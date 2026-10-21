@@ -1,3 +1,6 @@
+import type { ReactNode } from 'react';
+import type { AgentSignalSnapshot } from '@/lib/agent-signal';
+import type { InspectionSnapshot } from '@/lib/inspection';
 import type { RTMClient } from 'agora-rtm';
 
 export interface AgoraTokenData {
@@ -5,6 +8,7 @@ export interface AgoraTokenData {
   uid: string;
   channel: string;
   agentId?: string;
+  startedAt?: number;
 }
 
 export interface ClientStartRequest {
@@ -28,8 +32,13 @@ export interface AgoraRenewalTokens {
 }
 
 export interface ConversationComponentProps {
+  ending?: boolean;
   agoraData: AgoraTokenData;
   rtmClient: RTMClient;
   onTokenWillExpire: (uid: string) => Promise<AgoraRenewalTokens>;
-  onEndConversation: () => void;
+  onEndConversation: () => void | Promise<void>;
+  startupError?: string;
+  feedback?: ReactNode;
+  onActivityChange?: (snapshot: AgentSignalSnapshot) => void;
+  onInspectionChange?: (snapshot: InspectionSnapshot) => void;
 }

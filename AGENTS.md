@@ -54,7 +54,9 @@ confirmation, duplicate handling and atomic rescheduling intact. An escalated
 call cannot return to ordinary scheduling. Never replace actual state changes
 with accepted-but-unsaved request responses.
 
-Ordinary local conversations need no relay or
+`pnpm dev:clinic` creates a temporary HTTPS relay to only the six simulated
+clinic tools. It requires `cloudflared`, changes no env files and stops both
+processes on Ctrl+C. Ordinary local conversations need no relay or
 `TOP_TEN_SCENARIO_TOOL_BASE_URL`; configure a public HTTPS origin only for tools. Local `pnpm run verify:scenario` checks need no
 cloud service. Do not claim live voice acceptance from route tests. State lasts
 two hours and resets on process restart; this is a single-process simulation.
@@ -65,7 +67,7 @@ two hours and resets on process restart; this is a single-process simulation.
 - Client RTC: `agora-rtc-react` hooks over `agora-rtc-sdk-ng`
 - Messaging: `agora-rtm` for transcripts, agent state, metrics, and error events
 - Toolkit core: `agora-agent-client-toolkit` for `AgoraVoiceAI`, transcript helpers, and turn status
-- UI components: `agora-agent-uikit` for visualizer, transcript, and mic controls
+- UI components: vendored agent-ui source, scenario-01 theme, application-owned activity canvas; see styles/agent-ui/PROVENANCE.md.
 - Server SDK: `agora-agents` for managed agent session startup
 - API routes: token generation, agent invite, chat, and stop routes live in `app/api`
 - Default agent config: Agora-managed STT, LLM, and TTS; `.env.local` contains only Agora project credentials
@@ -158,7 +160,7 @@ useEffect(() => {
 ### Tokens and Styling
 
 - RTM token access must come from `RtcTokenBuilder.buildTokenWithRtm`; a standard RTC-only token does not grant RTM access.
-- Tailwind must scan uikit classes with `./node_modules/agora-agent-uikit/dist/**/*.{js,mjs}` in `tailwind.config.ts`.
+- Tailwind 4 scans UIKit with the @source directive in app/globals.css.
 
 ## Working Rules
 
@@ -260,6 +262,10 @@ The generator and tester live in the [AgoraIO-Community/ai-devkit](https://githu
 
 ## Local conversation and optional tools
 
-Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
+Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success. The existing relay command is optional and is not started by ordinary development.
 
 TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.
+
+## Scenario 01 UI alignment (2026-10-21)
+
+`ScenarioShell` and `useScenarioUi` compose the entry, persistent identity, activity workspace, Inspector and Build panels around existing session bootstrap. `scenarios/presentation.ts` loads scenario-specific content. `ConversationComponent` reports actual activity/inspection events and uses the adopted transcript and Glass controls. Business views remain scenario-owned below the voice workspace. Tailwind 4/PostCSS, theme recipes and MiSans match scenario 01. `scenarios/runtime-profile.ts` displays the non-secret configured pipeline; keep it aligned with the invite route. Never treat browser fixtures as live RTC/tool acceptance.

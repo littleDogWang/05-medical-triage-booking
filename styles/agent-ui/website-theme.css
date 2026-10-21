@@ -1,0 +1,91 @@
+/* Agora Website roles over the original Agora Glass material and control recipes. */
+:root:not(.dark) {
+  --background: #fcf9f8;
+  --foreground: #0f0f0f;
+  --card: #fff;
+  --card-foreground: var(--foreground);
+  --popover: #fcf9f8;
+  --popover-foreground: var(--foreground);
+  --primary: #075c9a;
+  --primary-foreground: #fff;
+  --primary-hover: #064e83;
+  --primary-pressed: #04416f;
+  --secondary: #f1f0f0;
+  --secondary-foreground: #0f0f0f;
+  --muted: #f1f0f0;
+  --muted-foreground: #626262;
+  --accent: #e6f3fa;
+  --accent-foreground: #075c9a;
+  --border: #d6d6d6;
+  --input: #8a8a8a;
+  --ring: #075c9a;
+  --demo-raised: #f1f0f0;
+  --signal-blue: #075c9a;
+  --signal-cyan: #007b79;
+  --overlay: rgb(15 15 15 / 0.38);
+  --glass-fill: rgb(255 255 255 / 0.42);
+  --glass-tint: rgb(255 255 255 / 0.72);
+  --glass-edge: rgb(15 15 15 / 0.16);
+  --glass-highlight: rgb(255 255 255 / 0.9);
+  --glass-light: rgb(255 255 255 / 0.45);
+  --glass-bloom: rgb(255 255 255 / 0.18);
+  --control-glass-fill: rgb(255 255 255 / 0.48);
+  --control-glass-fill-hover: rgb(255 255 255 / 0.64);
+  --control-glass-edge: rgb(15 15 15 / 0.15);
+  --control-glass-low-edge: rgb(15 15 15 / 0.1);
+  --control-glass-sheen: rgb(255 255 255 / 0.68);
+}
+:root.dark {
+  --background: #000;
+  --foreground: #fcf9f8;
+  --card: #1a1a1a;
+  --card-foreground: var(--foreground);
+  --popover: #0a0a0a;
+  --popover-foreground: var(--foreground);
+  --primary: #00c2ff;
+  --primary-foreground: #002b3b;
+  --primary-hover: #4fd4ff;
+  --primary-pressed: #00a6dc;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fcf9f8;
+  --muted: #0a0a0a;
+  --muted-foreground: #b3b3b3;
+  --accent: #102a34;
+  --accent-foreground: #a0faff;
+  --border: #383838;
+  --input: #8a8a8a;
+  --ring: #a0faff;
+  --demo-raised: #0a0a0a;
+  --signal-blue: #57b5ef;
+  --signal-cyan: #00c9b1;
+  --overlay: rgb(0 0 0 / 0.65);
+  --glass-fill: rgb(26 26 26 / 0.48);
+  --glass-tint: rgb(26 26 26 / 0.72);
+  --glass-edge: rgb(252 249 248 / 0.2);
+  --glass-highlight: rgb(252 249 248 / 0.24);
+  --glass-light: rgb(252 249 248 / 0.15);
+  --glass-bloom: rgb(252 249 248 / 0.05);
+  --control-glass-fill: rgb(26 26 26 / 0.48);
+  --control-glass-fill-hover: rgb(36 36 36 / 0.64);
+  --control-glass-edge: rgb(252 249 248 / 0.22);
+  --control-glass-low-edge: rgb(252 249 248 / 0.14);
+  --control-glass-sheen: rgb(252 249 248 / 0.12);
+}
+:root,
+:root.dark {
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --action-fill: var(--primary);
+  --action-hover: var(--primary-hover);
+  --action-pressed: var(--primary-pressed);
+  --action-ink: var(--primary-foreground);
+  --action-edge: transparent;
+  --action-ring: var(--ring);
+  --action-sheen: rgb(255 255 255 / 0.14);
+  --control-primary-fill: var(--primary);
+  --control-primary-fill-hover: var(--primary-hover);
+  --control-primary-fill-pressed: var(--primary-pressed);
+}
+:root .ag-button-primary {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}

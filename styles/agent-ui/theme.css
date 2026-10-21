@@ -1,0 +1,215 @@
+/* Default Crystal glass / Obsidian actions. Import through styles.css. */
+:root:not(.dark) {
+  --background: oklch(97.558% 0.00264 106.45);
+  --foreground: oklch(26.820% 0.00797 264.43);
+  --card: oklch(96.8% .006 175 / .97);
+  --popover: oklch(97% .006 175 / .96);
+  --primary: oklch(35.145% 0.02744 240.34);
+  --primary-foreground: oklch(100.000% 0.00000 89.88);
+  --primary-hover: oklch(39.410% 0.02834 232.73);
+  --primary-pressed: oklch(30.499% 0.02609 239.78);
+  --secondary: oklch(93.8% .009 175 / .72);
+  --secondary-foreground: oklch(33.637% 0.00752 264.47);
+  --muted: oklch(94% .007 175 / .75);
+  --muted-foreground: oklch(50.616% 0.01018 264.48);
+  --accent: oklch(92.672% 0.00255 228.79);
+  --accent-foreground: oklch(34.558% 0.02028 239.76);
+  --border: oklch(45% .018 180 / .16);
+  --input: oklch(45% .018 180 / .32);
+  --ring: oklch(51.842% 0.04414 241.76);
+  --scene-ground: oklch(92.685% 0.00535 106.50);
+  --scene-blue: oklch(83.132% 0.00534 247.89);
+  --scene-blue-foreground: oklch(33.787% 0.01114 248.16);
+}
+
+:root.dark {
+  --background: oklch(20.835% 0.00252 247.95);
+  --foreground: oklch(94.253% 0.00267 106.45);
+  --card: oklch(25.027% 0.00352 228.94);
+  --popover: oklch(28.784% 0.00464 247.99);
+  --primary: oklch(89.811% 0.01446 238.03);
+  --primary-foreground: oklch(28.607% 0.02335 241.02);
+  --primary-hover: oklch(93.894% 0.00926 232.37);
+  --primary-pressed: oklch(84.067% 0.02072 238.72);
+  --secondary: oklch(29.189% 0.00462 247.99);
+  --secondary-foreground: oklch(91.173% 0.00172 145.56);
+  --muted: oklch(25.906% 0.00476 248.01);
+  --muted-foreground: oklch(73.681% 0.00668 255.49);
+  --accent: oklch(34.473% 0.01196 243.17);
+  --accent-foreground: oklch(92.410% 0.01015 238.52);
+  --border: oklch(35.056% 0.00663 248.02);
+  --input: oklch(57.969% 0.01487 251.65);
+  --ring: oklch(74.140% 0.02854 241.30);
+  --scene-ground: oklch(25.069% 0.00480 248.02);
+  --scene-blue: oklch(37.250% 0.01087 248.12);
+  --scene-blue-foreground: oklch(91.211% 0.00461 258.33);
+}
+
+:root {
+  --card-foreground: var(--foreground);
+  --popover-foreground: var(--foreground);
+  --control-primary-fill: color-mix(in oklch, var(--primary) 94%, transparent);
+  --control-primary-fill-hover: color-mix(in oklch, var(--primary-hover) 96%, transparent);
+  --control-primary-fill-pressed: var(--primary-pressed);
+  --control-glass-fill: color-mix(in oklch, var(--card) 48%, transparent);
+  --control-glass-fill-hover: color-mix(in oklch, var(--card) 64%, transparent);
+  --control-glass-edge: color-mix(in oklch, var(--card) 82%, transparent);
+  --control-glass-low-edge: color-mix(in oklch, var(--foreground) 20%, transparent);
+  --control-glass-sheen: color-mix(in oklch, var(--card) 68%, transparent);
+  --glass-fill: color-mix(in oklch, var(--card) 42%, transparent);
+  --glass-highlight: color-mix(in oklch, var(--card) 75%, transparent);
+  --glass-bloom: color-mix(in oklch, var(--card) 18%, transparent);
+  --glass-light: color-mix(in oklch, var(--card) 45%, transparent);
+  --glass-tint: color-mix(in oklch, var(--card) 72%, transparent);
+  --glass-edge: color-mix(in oklch, var(--card) 90%, transparent);
+  --glass-elevation: 0 6px 24px color-mix(in oklch, var(--foreground) 10%, transparent), 0 12px 40px color-mix(in oklch, var(--foreground) 7%, transparent);
+}
+
+:root.dark {
+  --glass-fill: color-mix(in oklch, var(--card) 48%, transparent);
+  --glass-highlight: color-mix(in oklch, var(--foreground) 24%, transparent);
+  --glass-bloom: color-mix(in oklch, var(--foreground) 5%, transparent);
+  --glass-light: color-mix(in oklch, var(--foreground) 15%, transparent);
+  --control-glass-edge: color-mix(in oklch, var(--foreground) 22%, transparent);
+  --control-glass-sheen: color-mix(in oklch, var(--foreground) 12%, transparent);
+  --glass-elevation: 0 6px 24px rgb(0 0 0 / .22), 0 12px 40px rgb(0 0 0 / .15);
+}
+
+:root { --overlay: color-mix(in oklch, var(--foreground) 35%, transparent); }
+
+:root.dark { --overlay: rgb(0 0 0 / .6); }
+
+:root {
+  --showcase-shadow: 0 18px 44px rgb(24 26 29 / .07), 0 2px 6px rgb(24 26 29 / .035);
+  --glass-elevation: 0 6px 20px rgb(24 26 29 / .065), 0 14px 36px rgb(24 26 29 / .04);
+  --control-glass-low-edge: rgb(32 34 38 / .18);
+}
+
+:root.dark {
+  --showcase-shadow: 0 18px 44px rgb(0 0 0 / .25), 0 2px 6px rgb(0 0 0 / .15);
+  --glass-elevation: 0 6px 20px rgb(0 0 0 / .24), 0 14px 36px rgb(0 0 0 / .12);
+  --control-glass-low-edge: rgb(255 255 255 / .14);
+}
+
+:root .ag-button-primary:not(:disabled):is(:hover,[data-demo-state="hover"]) {
+  background:
+    radial-gradient(72% 150% at var(--control-light-x,28%) -40%,rgb(255 255 255 / .16),transparent 66%),
+    var(--control-primary-fill-hover);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .22),0 3px 9px rgb(24 26 29 / .1);
+}
+
+:root:not(.dark) {
+  --background: oklch(93% .003 170);
+  --foreground: oklch(25% .013 210);
+  --primary: oklch(45% .048 205);
+  --primary-hover: oklch(49% .048 205);
+  --primary-pressed: oklch(39% .043 205);
+  --accent: oklch(91% .02 190);
+  --accent-foreground: oklch(31% .035 205);
+  --ring: oklch(48% .054 205);
+  --scene-ground: oklch(88.5% .012 165);
+  --scene-blue: oklch(76% .038 190);
+  --scene-blue-foreground: oklch(28% .025 210);
+  --glass-fill: rgb(237 252 249 / .27);
+  --glass-highlight: rgb(255 255 255 / .94);
+  --glass-light: rgb(255 255 255 / .34);
+  --glass-bloom: rgb(192 236 231 / .045);
+  --control-glass-fill: rgb(243 255 252 / .29);
+  --control-glass-fill-hover: rgb(246 255 253 / .48);
+  --control-glass-edge: rgb(255 255 255 / .9);
+  --control-glass-low-edge: rgb(65 118 116 / .27);
+  --control-primary-fill: color-mix(in oklch,var(--primary) 88%,transparent);
+  --control-primary-fill-hover: color-mix(in oklch,var(--primary-hover) 94%,transparent);
+  --glass-elevation: 0 10px 24px rgb(31 66 63 / .09),0 24px 48px rgb(31 66 63 / .055);
+}
+
+:root.dark {
+  --background: oklch(19% .012 205);
+  --foreground: oklch(94% .008 180);
+  --primary: oklch(82% .045 185);
+  --primary-hover: oklch(88% .035 185);
+  --primary-pressed: oklch(74% .047 185);
+  --primary-foreground: oklch(24% .024 205);
+  --accent: oklch(31% .024 200);
+  --accent-foreground: oklch(91% .025 185);
+  --ring: oklch(76% .05 185);
+  --scene-ground: oklch(28% .02 200);
+  --scene-blue: oklch(49% .055 190);
+  --scene-blue-foreground: oklch(95% .018 180);
+  --glass-fill: rgb(23 46 47 / .3);
+  --glass-highlight: rgb(225 255 248 / .48);
+  --glass-light: rgb(209 255 246 / .12);
+  --glass-bloom: rgb(126 204 188 / .04);
+  --control-glass-fill: rgb(111 156 150 / .13);
+  --control-glass-fill-hover: rgb(149 197 187 / .2);
+  --control-glass-edge: rgb(222 255 246 / .4);
+  --control-glass-low-edge: rgb(0 0 0 / .4);
+}
+
+:root .ag-glass:not([data-material="solid"])::after {
+  box-shadow: var(--material-rim-shadow, inset 0 1px 0 var(--glass-highlight),
+    inset 1px 0 0 rgb(255 255 255 / .32),
+    inset 0 -1px 0 var(--control-glass-low-edge));
+}
+
+:root .ag-button-glass,
+:root .ag-toggle[aria-pressed="true"] {
+  box-shadow:inset 0 1px 0 var(--control-glass-edge),inset 0 -1px 0 var(--control-glass-low-edge),0 3px 8px rgb(29 62 59 / .07);
+}
+
+:root {
+  --action-fill: oklch(25% .009 255 / .98);
+  --action-hover: oklch(30% .011 255 / .98);
+  --action-pressed: oklch(21% .008 255);
+  --action-ink: oklch(97% .003 255);
+  --action-edge: oklch(18% .008 255 / .5);
+  --action-ring: oklch(51% .018 255);
+  --action-sheen: oklch(100% 0 0 / .12);
+}
+
+:root.dark {
+  --action-fill: oklch(27% .009 255 / .98);
+  --action-hover: oklch(32% .011 255 / .98);
+  --action-pressed: oklch(23% .008 255);
+  --action-edge: oklch(72% .012 255 / .35);
+  --action-ring: oklch(76% .015 255);
+  --action-sheen: oklch(100% 0 0 / .16);
+}
+
+:root :is(.ag-button-primary,.ag-button-glass-primary) {
+  --primary-foreground:var(--action-ink);
+  --ring:var(--action-ring);
+  color:var(--action-ink);
+  background:linear-gradient(180deg,oklch(100% 0 0 / .018),transparent 55%),var(--action-fill);
+  border-color:var(--action-edge);
+  box-shadow:inset 0 1px 0 var(--action-sheen),0 2px 4px oklch(15% .01 270 / .12);
+  -webkit-backdrop-filter:blur(12px) saturate(1.25);
+  backdrop-filter:blur(12px) saturate(1.25);
+}
+
+:root :is(.ag-button-primary,.ag-button-glass-primary):not(:disabled):is(:hover,[data-demo-state="hover"]) {
+  background:radial-gradient(100% 180% at var(--control-light-x,28%) -65%,var(--action-sheen),transparent 75%),var(--action-hover);
+  box-shadow:inset 0 1px 0 var(--action-sheen),0 3px 6px oklch(15% .01 270 / .14);
+}
+
+:root :is(.ag-button-primary,.ag-button-glass-primary):not(:disabled):is(:active,[data-demo-state="pressed"]) {
+  background:var(--action-pressed);
+  box-shadow:inset 0 1px 2px oklch(15% .01 270 / .14);
+}
+
+:root:not(.dark) :is(.ag-button-outline,.ag-button-secondary,.ag-input,.ag-textarea,.ag-select,.ag-input-group) {
+  background-color: oklch(96% .008 175 / .62);
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / .48);
+}
+
+/* Composite controls already share a single filtered parent plane. */
+:root :is(.ag-voice-dock, .ag-composer) .ag-button {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  :root .ag-button, :root .ag-button:hover {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

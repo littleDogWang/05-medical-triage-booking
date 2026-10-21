@@ -15,13 +15,17 @@ calendar account is needed. Read the [scenario guide](scenarios/08-medical-triag
 for fictional patient identities, tool arguments and the state lifetime.
 
 - `pnpm dev`: local app, public clinic facts in the Agent prompt, and simulated clinic API. No public tool address is required for conversation.
+- `pnpm dev:clinic`: voice testing with a temporary HTTPS relay for only the six
+  clinic tool endpoints; requires an installed `cloudflared`. Stop an existing
+  dev server first. Ctrl+C closes both services. Env files stay untouched.
 - `pnpm run verify:scenario`: local appointment workflow checks without cloud
   calls, credentials or a relay.
 
 Agora's cloud agent calls REST tools over HTTPS. For an existing deployment, set
 `TOP_TEN_SCENARIO_TOOL_BASE_URL` to that app's public HTTPS origin. An invite
 without public HTTPS tool configuration uses local clinic facts and collects appointment intent without executing tools.
-The clinic and all its fictional records run in this repo's Next.js process. Each call has independent state,
+The temporary relay is only a network path; the clinic and all its fictional
+records run in this repo's Next.js process. Each call has independent state,
 expires after two hours, and resets on a process restart. Do not use this
 process-local simulation as shared production storage.
 
@@ -112,7 +116,7 @@ Defined in [`env.local.example`](env.local.example).
 | ---------------------------- | :------: | ---------------------------------------------------------------- |
 | `NEXT_PUBLIC_AGORA_APP_ID`   |    ✅    | Agora Console → Project → App ID.                                |
 | `NEXT_AGORA_APP_CERTIFICATE` |    ✅    | Agora Console → Project → App Certificate. **Server-side only.** |
-| `TOP_TEN_SCENARIO_TOOL_BASE_URL` | For voice tools | Public HTTPS origin for optional voice tools. |
+| `TOP_TEN_SCENARIO_TOOL_BASE_URL` | For voice tools | Public HTTPS origin; `pnpm dev:clinic` supplies a temporary tools-only relay. |
 
 The default agent configuration in [`app/api/invite-agent/route.ts`](app/api/invite-agent/route.ts) uses Agora-managed STT, LLM, and TTS, so no extra vendor API keys are required for the base quickstart.
 
@@ -222,10 +226,14 @@ Released under the [MIT License](./LICENSE).
 
 ## Local conversation and optional tools
 
-Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
+Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success. The existing relay command is optional and is not started by ordinary development.
 
 TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.
 
 ## U.S. example data
 
 The fictional clinic address is in Boston, Massachusetts, and appointment times use `America/New_York`. Dr. Maya Bennett is the configured family-medicine doctor; doctor IDs remain consistent across fixtures, seeded appointments and tool schemas.
+
+## Interface
+
+The interface follows scenario 01: task-specific entry and welcome, persistent scenario identity, activity canvas, transcript and Glass voice controls. Inspector shows actual session evidence; Build provides this repository’s setup commands. Business results retain their original contracts and appear below the voice workspace. Edit `scenarios/08-medical-triage-booking/presentation.ts` for scenario copy. Styling uses Tailwind 4/PostCSS and the vendored theme; see `styles/agent-ui/PROVENANCE.md`. Local checks and browser rendering do not establish live voice/cloud-tool acceptance.

@@ -37,7 +37,7 @@ export function ConnectionStatusPanel({
       {/* Minimal status affordance: color and ping convey RTC health before the user opens details. */}
       <button
         type="button"
-        className="relative block"
+        className="relative flex items-center gap-2 rounded-md px-2 py-2 text-xs text-muted-foreground"
         aria-label={getConnectionLabel(connectionState, connectionSeverity)}
         aria-expanded={isOpen}
         aria-controls="connection-details-panel"
@@ -65,12 +65,13 @@ export function ConnectionStatusPanel({
             }`}
           />
         </span>
+        <span>{getConnectionLabel(connectionState, connectionSeverity)}</span>
       </button>
 
       {/* Expandable detail panel: current RTC state plus the captured agent/RTM issues. */}
       <div
         id="connection-details-panel"
-        className={`fixed top-16 left-1/2 z-20 w-[min(92vw,22rem)] -translate-x-1/2 rounded-md border border-border bg-card/95 p-3 space-y-2 backdrop-blur-sm transition-opacity md:absolute md:left-0 md:top-full md:mt-3 md:w-[24rem] md:translate-x-0 md:translate-y-0 ${
+        className={`fixed top-[7rem] left-1/2 z-20 w-[min(92vw,22rem)] -translate-x-1/2 rounded-md border border-border bg-card/95 p-3 space-y-2 backdrop-blur-sm transition-opacity md:absolute md:right-0 md:left-auto md:top-full md:mt-3 md:w-[24rem] md:translate-x-0 md:translate-y-0 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         role="status"

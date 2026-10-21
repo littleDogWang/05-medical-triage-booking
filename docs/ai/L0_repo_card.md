@@ -14,7 +14,7 @@
 | Recipe Role | base |
 | Recipe Version | 0.1.0 |
 | Recipe Status | stable |
-| Last Reviewed | 2026-10-16 |
+| Last Reviewed | 2026-10-21 |
 
 ## L1 — Summaries
 

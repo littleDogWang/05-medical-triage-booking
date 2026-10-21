@@ -9,11 +9,18 @@ account is needed.
 
 - `pnpm dev` starts the local app and simulated APIs. Run `pnpm run verify:scenario`
   to exercise the complete appointment workflow without Agora credentials or a tunnel.
+- `pnpm dev:clinic` starts Next.js with a temporary HTTPS relay, using an installed
+  `cloudflared` binary. This is needed for Agora's cloud agent to call the six REST
+  tools on your local machine. The relay allows only those tools, not token,
+  invite or session creation endpoints. Stop the existing dev server first.
+  Ctrl+C stops Next.js and the relay. No env file is rewritten.
 - For an already deployed app, set `TOP_TEN_SCENARIO_TOOL_BASE_URL` to its public
   HTTPS origin and use the usual start command to enable appointment tools.
   Without it, pnpm run dev starts local-information conversation without tools.
 
-The clinic is local and simulated; it does not connect a real clinic. Deployment to a stateless/multi-worker environment needs shared storage;
+The clinic itself is local and simulated; a temporary relay still requires
+internet access. Creating the relay does not deploy the app or connect a real
+clinic. Deployment to a stateless/multi-worker environment needs shared storage;
 this version uses one Node process.
 
 ## Fixture and example calls
@@ -92,7 +99,7 @@ existing SDK and RTC/RTM lifecycle.
 
 ## Local conversation and optional tools
 
-Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success.
+Run pnpm run dev for a conversation using clinic.json public facts (hours, policies, doctor roster, eligibility and example appointment times). Patient fixtures are excluded. The assistant collects appointment intent and gives emergency guidance without a callback URL; it cannot verify identity, check actual openings, save records, book, move or cancel appointments. A public HTTPS tool origin enables the existing six session-bound tools. Tool failures never fall back to sample openings or booking success. The existing relay command is optional and is not started by ordinary development.
 
 TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public HTTPS endpoint enables tools; malformed, HTTP, localhost and local/private origins leave tools disabled. URL validation does not prove network reachability. No tunnel, knowledge base or database is needed for the default conversation. Local checks do not establish live speech or cloud callback acceptance.
 

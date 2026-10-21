@@ -109,4 +109,4 @@ When setup docs/config change:
 
 ## Scenario 08 override
 
-Ordinary dev/start uses public clinic facts without tools; `TOP_TEN_SCENARIO_TOOL_BASE_URL` optionally enables tool actions. Local API checks use `pnpm run verify:scenario` without a relay or cloud calls. Doctor checks still cover only the base local prerequisites and credentials.
+Scenario 08 adds `pnpm dev:clinic` (installed cloudflared required), which starts Next.js with a temporary tools-only HTTPS relay and does not rewrite env files. Ordinary dev/start uses public clinic facts without tools; `TOP_TEN_SCENARIO_TOOL_BASE_URL` optionally enables tool actions. Local API checks use `pnpm run verify:scenario` without a relay or cloud calls. Doctor checks still cover only the base local prerequisites and credentials.

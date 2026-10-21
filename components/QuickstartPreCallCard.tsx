@@ -1,55 +1,183 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Loader2, Mic } from 'lucide-react';
+import { Button } from './ui/button';
+import { Alert, AlertDescription } from './ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
+import type { ScenarioPresentation } from '@/scenarios/presentation';
 
-type QuickstartPreCallCardProps = {
-  isLoading: boolean;
-  error: string | null;
-  onStartConversation: () => void;
-};
+function ScenarioFeatures({ scenario }: { scenario: ScenarioPresentation }) {
+  return (
+    <>
+      {scenario.features.length ? (
+        <section
+          className="demo-features"
+          aria-label={scenario.featuresHeading}
+        >
+          <h3>
+            <span className="demo-feature-comparison">
+              {scenario.featuresHeading}
+            </span>
+          </h3>
+          <ul>
+            {scenario.features.map((feature) => (
+              <li key={feature.title}>
+                <span className="demo-feature-emoji" aria-hidden="true">
+                  {feature.emoji}
+                </span>
+                {feature.title}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+      <div className="demo-built-with">
+        <span>Built with</span>
+        <ul aria-label="Technology stack">
+          {scenario.builtWith.map((technology) => (
+            <li key={technology}>{technology}</li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
 
 export function QuickstartPreCallCard({
+  scenario,
   isLoading,
+  disabled = false,
   error,
-  onStartConversation,
-}: QuickstartPreCallCardProps) {
+  onStart,
+}: {
+  scenario: ScenarioPresentation;
+  isLoading: boolean;
+  disabled?: boolean;
+  error: string | null;
+  onStart: () => void;
+}) {
   return (
-    <div
-      className="mx-auto flex w-[min(92vw,26.25rem)] animate-fade-up flex-col items-center rounded-[20px] border border-[#2b2b2b] px-10 py-10 text-center shadow-[0_10px_24px_rgba(0,0,0,0.28)]"
-      style={{
-        backgroundImage:
-          'linear-gradient(164.988deg, rgba(54,54,54,0.2) 1.0596%, rgba(0,0,0,0) 96.089%), linear-gradient(90deg, rgb(16,16,16) 0%, rgb(16,16,16) 100%)',
+    <section className="demo-welcome">
+      <h2>
+        {scenario.headline.map((line, index) => (
+          <span key={line}>
+            {index > 0 ? <br /> : null}
+            {line}
+          </span>
+        ))}
+      </h2>
+      <p className="demo-lead">{scenario.summary}</p>
+      <ScenarioFeatures scenario={scenario} />
+      <div className="demo-welcome-actions">
+        <Button
+          size="lg"
+          disabled={isLoading || disabled}
+          aria-busy={isLoading}
+          onClick={onStart}
+        >
+          {isLoading ? (
+            <Loader2 className="animate-spin" data-icon="inline-start" />
+          ) : (
+            <Mic data-icon="inline-start" />
+          )}
+          {isLoading ? 'Connecting…' : scenario.startLabel}
+        </Button>
+      </div>
+      <p className="demo-note">Microphone access required.</p>
+      <p className="demo-note">{scenario.boundaryShort}</p>
+      {error ? (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      ) : null}
+    </section>
+  );
+}
+
+export function ScenarioEntryDialog({
+  scenario,
+  open,
+  onOpenChange,
+  isLoading,
+  disabled = false,
+  error,
+  sessionActive,
+  onStart,
+}: {
+  scenario: ScenarioPresentation;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  isLoading: boolean;
+  disabled?: boolean;
+  error: string | null;
+  sessionActive: boolean;
+  onStart: () => void;
+}) {
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        if (!isLoading) onOpenChange(value);
       }}
     >
-      <h1 className="text-[28px] font-medium leading-[1.2] text-white">
-        Try Agora&apos;s Voice Agent
-      </h1>
-      <p className="mt-[14px] text-sm font-medium leading-6 text-muted-foreground">
-        Built on Agora&apos;s flagship Conversational AI engine, for effortless
-        agentic conversations.
-      </p>
-
-      <Button
-        onClick={onStartConversation}
-        disabled={isLoading}
-        className="mt-12 h-10 w-full rounded-lg border border-primary bg-primary text-sm font-medium text-black hover:border-white hover:bg-white hover:text-black disabled:hover:border-primary disabled:hover:bg-primary disabled:hover:text-black"
-        aria-label={
-          isLoading
-            ? 'Starting conversation with AI agent'
-            : 'Start conversation with AI agent'
-        }
+      <DialogContent
+        className="demo-entry-dialog"
+        showCloseButton={!isLoading}
+        onEscapeKeyDown={(event) => {
+          if (isLoading) event.preventDefault();
+        }}
+        onInteractOutside={(event) => {
+          if (isLoading) event.preventDefault();
+        }}
       >
-        {isLoading ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Starting...
-          </>
+        <DialogHeader>
+          <DialogTitle>{scenario.name}</DialogTitle>
+          <DialogDescription>{scenario.summary}</DialogDescription>
+        </DialogHeader>
+        {!error ? <ScenarioFeatures scenario={scenario} /> : null}
+        <p className="demo-note">{scenario.boundaryShort}</p>
+        {error ? (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        ) : null}
+        {sessionActive ? (
+          <Button onClick={() => onOpenChange(false)}>
+            Back to conversation
+          </Button>
         ) : (
-          'Start Conversation'
+          <Button
+            size="lg"
+            disabled={isLoading || disabled}
+            aria-busy={isLoading}
+            onClick={onStart}
+          >
+            {isLoading ? (
+              <Loader2 className="animate-spin" data-icon="inline-start" />
+            ) : (
+              <Mic data-icon="inline-start" />
+            )}
+            {isLoading
+              ? `Connecting to ${scenario.name}…`
+              : scenario.startLabel}
+          </Button>
         )}
-      </Button>
-      {error && <p className="mt-3 text-xs text-destructive">{error}</p>}
-    </div>
+        {!sessionActive ? (
+          <Button
+            variant="ghost"
+            disabled={isLoading || disabled}
+            onClick={() => onOpenChange(false)}
+          >
+            Preview first
+          </Button>
+        ) : null}
+      </DialogContent>
+    </Dialog>
   );
 }
