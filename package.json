@@ -1,7 +1,7 @@
 {
-  "name": "convoai-quickstart-web-nextjs",
+  "name": "08-medical-triage-booking",
   "version": "0.1.0",
-  "description": "Next.js quickstart for building conversational AI applications with Agora's Conversational AI Engine",
+  "description": "Handle clinic questions and a complete simulated appointment conversation.",
   "private": true,
   "engines": {
     "node": ">=22"
@@ -14,9 +14,11 @@
     "lint": "eslint .",
     "verify:api": "node --import tsx scripts/verify-api-contracts.ts",
     "typecheck": "tsc --noEmit",
-    "verify": "pnpm run doctor && pnpm run lint && pnpm run typecheck && pnpm run verify:api && pnpm run build",
+    "verify": "pnpm run doctor && pnpm run verify:template && pnpm run lint && pnpm run typecheck && pnpm run verify:api && pnpm run verify:scenario && pnpm run build",
     "verify:scenario": "node --import tsx scripts/verify-scenario.ts",
-    "dev:clinic": "node scripts/dev-clinic.mjs"
+    "dev:clinic": "node scripts/dev-clinic.mjs",
+    "verify:template": "node scripts/verify-template.mjs",
+    "verify:docker": "node scripts/verify-docker.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.39",
@@ -55,5 +57,6 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.58.1",
     "@tailwindcss/postcss": "^4.3.3"
-  }
+  },
+  "packageManager": "pnpm@9.15.9"
 }

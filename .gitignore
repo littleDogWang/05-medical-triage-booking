@@ -138,3 +138,8 @@ dist
 
 .DS_Store
 .scenario-data/
+
+# Local project binding and verification artifacts
+.agora/
+.next-*/
+docs/ai/test-results.md

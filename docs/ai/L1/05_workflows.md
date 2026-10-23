@@ -1,110 +1,43 @@
 # 05 Workflows
 
-> Repeatable task recipes for common quickstart changes and validation loops.
+> Complete development and delivery workflows.
 
-## Run Locally
+## First Success
 
-1. `pnpm install`
-2. `agora login`
-3. `agora project use <your-project>`
-4. `agora project env write .env.local`
-5. `pnpm run doctor`
-6. `pnpm run dev`
+```bash
+git clone https://github.com/littleDogWang/08-medical-triage-booking.git
+cd 08-medical-triage-booking
+pnpm install --frozen-lockfile
+cp env.local.example .env.local
+```
 
-If start fails, run `agora project doctor --deep`.
+Fill the two required Agora values in `.env.local`, then run `pnpm run doctor` and `pnpm run dev`. Keep an existing env file instead of overwriting it. With a ready Agora CLI, use `agora quickstart env write . --template nextjs --project <your-project> --json` to write template-aware keys for an existing authorized project. Check `agora version` and `agora doctor --json` first; do not create or change a remote project without authorization.
 
-## Change Agent Behavior
+Open http://localhost:3000 and start the scenario. Confirm actual two-way audio and both transcript roles; use [the public guide](../../../RECIPE.md#2-try-the-demo) for concrete cases. Only public clinic facts, policies, doctors and example appointment times enter the prompt; patient fixtures are excluded. The assistant discusses appointment intent but cannot verify identity, find actual openings or change appointments.
 
-Target file: `app/api/invite-agent/route.ts`.
+## Modify The Agent Or Core Flow
 
-Typical edits:
+Edit `scenarios/08-medical-triage-booking/config.ts` and the selected data/rules, then inspect prompt assembly in scenarios/index.ts and provider/turn detection in the invite route. Preserve the internal recipe invariants. Run scenario/API checks and canonical verify; repeat real speech cases for timing or behavior changes.
 
-- System prompt (`ADA_PROMPT`).
-- Greeting default (`GREETING`).
-- Shared agent UID (`DEFAULT_AGENT_UID` in `lib/agora.ts`).
-- VAD (`turnDetection.config.*`).
-- STT/LLM/TTS model/provider blocks.
+## Modify The Client Or UI
 
-Validation path:
+Use scenario presentation and existing components. Preserve the initial Dialog, persistent identity, real toolkit/Glass callbacks and RTC/RTM ownership. Use the scenario-specific entry and persistent identity; starting voice requires a user action. Render desktop/mobile and inspect real states before delivery.
 
-1. `pnpm run lint`
-2. `pnpm run typecheck`
-3. `pnpm run verify:api`
-4. `pnpm run build`
+## Change An Interface
 
-## Change Token or Session Bootstrap
+Update the owning route/types, browser consumer, tool schema, matching checks and docs together. The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled. Never introduce caller-selectable business scope or imply a successful write from a verbal summary.
 
-Token behavior:
+## Deploy
 
-- Edit `app/api/generate-agora-token/route.ts`.
-- Preserve RTM-capable token generation.
+Local development runs one Next.js process at http://localhost:3000 using `.env.local`. Native production uses `pnpm run build` then `pnpm run start`. Docker runs the same app as non-root UID 1001 on port 3000, without a reverse proxy inside the image. The simulated clinic uses one Node process and process-local sessions that expire after two hours. Restart resets the fixtures; multiple workers do not share appointments. A hosted demo needs a long-lived process, and a production integration needs shared durable state.
 
-Bootstrap behavior:
+Follow [README Docker](../../../README.md#docker): public App ID at build, both Agora values at runtime, port 3000, and a persistent .scenario-data volume where required. Run `pnpm run verify:docker`; test live cloud tool calls independently.
 
-- Edit `components/LandingPage.tsx`.
-- Keep invite + RTM setup parallelized before conversation mount.
+## Diagnose A Failure
 
-## Change Transcript Rendering
-
-1. Update transforms in `lib/conversation.ts`.
-2. Update wiring in `components/ConversationComponent.tsx`.
-3. Ensure `IN_PROGRESS` is separated from history, `INTERRUPTED` retained in history.
-4. Re-check [transcript_pipeline.md](L2/transcript_pipeline.md) for consistency.
-
-## Ship-Readiness Workflow
-
-1. Run `pnpm run verify`.
-2. Confirm docs alignment (`README`, guides, `AGENTS`, `docs/ai`).
-3. Use conventional commit and branch naming.
-
-## Progressive Disclosure Doc Workflow
-
-- `generate docs`: create `docs/ai/` tree when absent.
-- `update docs`: refresh after workflow/interface/security changes.
-- `test docs`: execute question-based validation and write `docs/ai/test-results.md`.
-- `fix docs`: close findings from `docs/ai/test-results.md` or a docs review.
-
-## Workflow: Implement a Baseline Recipe Repo
-
-1. Treat this repo as the official Agora Next.js quickstart baseline.
-2. Do not recreate Agora ConvoAI integration from memory.
-3. Follow [from_scratch_bootstrap.md](L2/from_scratch_bootstrap.md) for the implementation map and checklist.
-4. Preserve the recipe invariants in `docs/ai/RECIPE.md`.
-5. Run the verification commands before publishing a derivative.
-
-## Workflow: Add a New API Route
-
-1. Add route under `app/api/<route-name>/route.ts`.
-2. Define payload types in `types/conversation.ts` if shared with client.
-3. Add/update contract verification in `scripts/verify-api-contracts.ts`.
-4. Run `pnpm run verify:api` and `pnpm run typecheck`.
-5. Update `README.md` and `docs/ai/L1/06_interfaces.md`.
-
-## Workflow: Modify Transcript UX
-
-1. Update transforms in `lib/conversation.ts`.
-2. Update render usage in transcript/layout components.
-3. Validate edge states (`IN_PROGRESS`, `INTERRUPTED`, empty history).
-4. Reconcile guidance in [transcript_pipeline.md](L2/transcript_pipeline.md).
-5. Run `pnpm run lint` and `pnpm run build`.
-
-## Workflow: Enable BYOK Provider Path
-
-1. Uncomment relevant provider block in invite route.
-2. Add the provider variables shown in the lower README BYOK section to your local environment.
-3. Keep default no-key path intact for baseline quickstart behavior.
-4. Keep provider variables out of `env.local.example`; they are not part of the base contract.
-5. Re-run `pnpm run verify` before shipping.
-
-## Workflow: Docs Refresh After Runtime Changes
-
-1. Update L1 files matching changed subsystem.
-2. Update or add L2 deep dives if L1 explanation exceeds concise bounds.
-3. Bump `Last Reviewed` in `L0_repo_card.md`.
-4. Re-run docs test and append retest notes for any fixes.
+Inspect the exact failing token, invite, RTM or business API response. Separate setup, transport, provider and tool failures. Reproduce one narrow case, compare the documented contract with its source, then run the matching check. A local URL does not prove public callback reachability, and a built image does not prove speech.
 
 ## Related Deep Dives
 
-- [conversation_lifecycle.md](L2/conversation_lifecycle.md) — Full runtime sequence for bootstrap and teardown tasks.
-- [from_scratch_bootstrap.md](L2/from_scratch_bootstrap.md) — Baseline implementation checklist for recipe consumers.
-- [transcript_pipeline.md](L2/transcript_pipeline.md) — Required checks when editing transcript flow.
+- [Lifecycle](L2/conversation_lifecycle.md)
+- [Agent configuration](L2/invite_agent_config.md)

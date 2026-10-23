@@ -1,177 +1,27 @@
-# Contributing to Agora Conversational AI Next.js Quickstart
+# Contributing To Clinic Reception & Appointments
 
-Thank you for your interest in contributing! This document provides guidelines for contributing to this project.
+## Development Setup
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 22 or higher (see `engines` in `package.json`)
-- pnpm 8.x or higher
-- An Agora account with Conversational AI enabled
-
-### Development Setup
-
-1. Fork and clone the repository:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/agent-quickstart-nextjs.git
-cd agent-quickstart-nextjs
-```
-
-2. Install dependencies:
-
-```bash
-pnpm install
-```
-
-3. Set up your environment variables:
-
-```bash
-cp env.local.example .env.local
-```
-
-Use the Agora CLI to create or select a project, then write its credentials directly to `.env.local`:
-
-```bash
-agora login
-agora project create my-first-voice-agent --feature rtc --feature convoai
-agora project use my-first-voice-agent
-agora project env write .env.local
-```
-
-4. Start the development server:
-
-```bash
-pnpm dev
-```
+Follow [README setup](README.md#run-it) with Node.js 22+ and pnpm 9.15.9. Use `env.local.example` as the tracked schema and `.env.local` for local credentials. Keep existing credentials private. Install Docker separately only for the container check.
 
 ## Development Workflow
 
-### Making Changes
+Use a scoped branch, preserve unrelated local work and make the smallest complete change. Read [AGENTS.md](AGENTS.md), the AI repo card and the internal recipe before changing lifecycle or contracts. Run focused checks while editing and the canonical checks before delivery. Local edits, commits, pushes and remote review operations have separate authorization boundaries; do not publish as a side effect of local verification.
 
-1. Create a new branch for your feature or fix:
+## Coding Standards
 
-```bash
-git checkout -b feat/your-feature-name
-```
-
-2. Make your changes following our coding standards (see below)
-
-3. Test your changes locally:
-
-```bash
-pnpm run verify
-```
-
-4. Commit your changes with a conventional commit message such as `feat: add microphone selector`
-
-5. Push to your fork and create a Pull Request
-
-### Coding Standards
-
-- **TypeScript**: All new code must be written in TypeScript
-- **Formatting**: Follow the existing code style and keep `pnpm run lint` clean
-- **Linting**: Ensure your code passes ESLint checks (`pnpm run lint`)
-- **Comments**: Add comments for non-obvious patterns, especially:
-  - StrictMode guards and React lifecycle patterns
-  - Agora SDK-specific requirements
-  - Security considerations
-  - Performance optimizations
-
-### Component Guidelines
-
-- Use functional components with hooks
-- Follow the existing patterns for Agora SDK integration:
-  - `isReady` guard for StrictMode safety
-  - Hook ownership (don't manually call `client.leave()`, etc.)
-  - Proper cleanup in `useEffect` returns
-- Keep components focused and single-purpose
-- Use TypeScript interfaces for props
-
-### API Route Guidelines
-
-- Validate all inputs
-- Use proper HTTP status codes
-- Include clear error messages
-- Log errors with context
-- Never expose sensitive credentials in responses
-
-## Pull Request Process
-
-1. **Title**: Use a clear, descriptive title
-   - Good: "Add support for Azure OpenAI endpoints"
-   - Bad: "Update code"
-
-2. **Description**: Include:
-   - What changes you made and why
-   - How to test the changes
-   - Any breaking changes
-   - Screenshots for UI changes
-
-3. **Review**: Wait for maintainer review
-   - Address feedback promptly
-   - Keep discussions focused and professional
-
-4. **Merge**: Once approved, a maintainer will merge your PR
-
-## What to Contribute
-
-### Good First Issues
-
-- Documentation improvements
-- Error message clarity
-- Progressive disclosure documentation improvements
-- UI/UX enhancements
-- Accessibility improvements
-
-### Feature Contributions
-
-Before starting work on a major feature:
-1. Open an issue to discuss the feature
-2. Wait for maintainer feedback
-3. Ensure it aligns with the project's goals
-
-### Bug Fixes
-
-- Include steps to reproduce the bug
-- Add a test case if possible
-- Explain the root cause in your PR description
-
-## Documentation
-
-When changing implementation:
-- Update relevant sections in `README.md`
-- Update `AGENTS.md` and the relevant `docs/ai/` files if architecture, workflows, conventions, or contracts change
-- Update `docs/ai/RECIPE.md` if recipe extension points, invariants, or stable contracts change
-- Use conventional commits and `type/short-description` branches; do not mention AI tool names in commit or PR text
-- Keep code comments in sync with the code
+Use English TypeScript/documentation and the existing ESLint configuration. Keep the StrictMode guard, hook ownership, RTM-capable tokens, transcript UID remap and interrupted turns. Log diagnostic context without credentials or business capability IDs. Return explicit validation errors; never turn a failed tool or disk operation into success. Use U.S. fictional data with explicit, date-correct time zones.
 
 ## Testing
 
-This project ships with a verification workflow:
+`pnpm run verify` runs pnpm run doctor && pnpm run verify:template && pnpm run lint && pnpm run typecheck && pnpm run verify:api && pnpm run verify:scenario && pnpm run build. Focused checks are listed in [README commands](README.md#commands).
 
-```bash
-pnpm run doctor
-pnpm run verify:api
-pnpm run verify
-```
+`pnpm run verify:docker` separately builds the production image and checks startup plus a scenario route with synthetic credentials. A running Docker engine is required. No real Agora session is started by this check. Run a real microphone and cloud-tool session for speech acceptance; the scenarios' [acceptance matrix](scenarios/08-medical-triage-booking/acceptance.md) defines the cases.
 
-Use `pnpm run verify` before opening a PR. `pnpm run verify:api` is the narrower check for server-route contract changes.
+## Pull Requests
 
-## Questions?
+Describe the changed behavior, relevant checks and actual evidence level. Keep screenshots, logs and synthetic acceptance records local unless explicitly requested. Synchronize README, architecture, AGENTS, public/internal recipes and affected L1/L2 files for interface or runtime changes. Update L0's review date. Use conventional commit descriptions, preserve attribution and do not bypass hooks.
 
-- Open an issue for questions about contributing
-- Check existing issues and PRs for similar discussions
-- Review `AGENTS.md` for the project architecture overview
+## Security Reports
 
-## Code of Conduct
-
-- Be respectful and professional
-- Welcome newcomers and help them learn
-- Focus on constructive feedback
-- Assume good intentions
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the MIT License.
+Send security reports privately to security@agora.io. Do not include secrets in public issues, images, screenshots or logs. Rotate exposed values with the credential owner.

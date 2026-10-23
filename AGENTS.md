@@ -1,6 +1,6 @@
 # Agent Development Guide
 
-This guide is for coding agents making changes in `agent-quickstart-nextjs`.
+This guide is for coding agents making changes in `08-medical-triage-booking`.
 
 ## Shared scenario UI requirements
 
@@ -30,14 +30,14 @@ This repository uses progressive disclosure documentation. Docs live under `docs
 2. Load ALL 8 files in [docs/ai/L1/](docs/ai/L1/). They are small — load all upfront.
 3. Follow L2 deep-dive links only when L1 isn't detailed enough. The index is at [docs/ai/L1/L2/_index.md](docs/ai/L1/L2/_index.md).
 
-This repo declares `Recipe Role: base` in L0, so also read [docs/ai/RECIPE.md](docs/ai/RECIPE.md) when evaluating extension points, invariants, or stable contracts.
+This repo is a standalone scenario derivative of the official voice quickstart. Also read [docs/ai/RECIPE.md](docs/ai/RECIPE.md) when evaluating extension points, invariants, or stable contracts.
 
 The sections below (Start Here, Patterns, Anti-Patterns, etc.) remain the canonical contributor handbook for hands-on work; the `docs/ai/` tree is the structured summary used by AI agents.
 
 ## Start Here
 
 - Read [README.md](./README.md) for setup, commands, verification, and deployment.
-- Use [docs/ai/RECIPE.md](docs/ai/RECIPE.md) for the base quickstart recipe contract.
+- Use [docs/ai/RECIPE.md](docs/ai/RECIPE.md) for this scenario's extension points, invariants and stable contracts.
 - Use [docs/ai/L1/L2/from_scratch_bootstrap.md](docs/ai/L1/L2/from_scratch_bootstrap.md) for the baseline implementation map.
 - Use [docs/ai/L1/L2/transcript_pipeline.md](docs/ai/L1/L2/transcript_pipeline.md) for transcript and RTM behavior.
 - For layout and responsibilities inside `components/`, `app/api/`, and `lib/`, use [docs/ai/L1/03_code_map.md](docs/ai/L1/03_code_map.md) and [docs/ai/L1/02_architecture.md](docs/ai/L1/02_architecture.md).
@@ -70,21 +70,13 @@ two hours and resets on process restart; this is a single-process simulation.
 - UI components: vendored agent-ui source, scenario-01 theme, application-owned activity canvas; see styles/agent-ui/PROVENANCE.md.
 - Server SDK: `agora-agents` for managed agent session startup
 - API routes: token generation, agent invite, chat, and stop routes live in `app/api`
-- Default agent config: Agora-managed STT, LLM, and TTS; `.env.local` contains only Agora project credentials
+- Default agent config: Agora-managed STT, LLM and TTS. `.env.local` requires the two Agora project credentials; optional scenario variables are documented in README.
 
 ## Supported Modes
 
-### Local Development
+Local development runs one Next.js process at http://localhost:3000 using `.env.local`. Native production uses `pnpm run build` then `pnpm run start`. Docker runs the same app as non-root UID 1001 on port 3000, without a reverse proxy inside the image. The simulated clinic uses one Node process and process-local sessions that expire after two hours. Restart resets the fixtures; multiple workers do not share appointments. A hosted demo needs a long-lived process, and a production integration needs shared durable state.
 
-- Run from the repo root with `pnpm run dev`.
-- Next.js serves the app and the route handlers at `http://localhost:3000`.
-- Local credentials are read from `.env.local`, usually written by `agora project env write .env.local`.
-
-### Vercel Deployment
-
-- Deploy the repository as a single Next.js app.
-- Set `NEXT_PUBLIC_AGORA_APP_ID` and `NEXT_AGORA_APP_CERTIFICATE` in the deployment target.
-- Keep `NEXT_AGORA_APP_CERTIFICATE` server-side only.
+Use Node.js 22+ and pnpm 9.15.9. The tracked example is `env.local.example`; local Next.js uses `.env.local`. Docker embeds the public App ID at build time, accepts the certificate only at runtime, and keeps the writable data directory owned by UID 1001. Run `pnpm run verify:docker` separately from `pnpm run verify`; see [README deployment](README.md#deployment).
 
 ## Routing / Ownership
 
@@ -172,6 +164,8 @@ useEffect(() => {
 - Keep README, AGENTS, and `docs/ai/` aligned with implementation changes.
 
 ## Commands
+
+Pinned toolchain: Node.js 22+ and pnpm 9.15.9. `pnpm run verify` is canonical and includes every scenario check. `pnpm run verify:template` checks repository contracts; `pnpm run verify:docker` builds and smoke-tests the production container separately. The full command list is in [README](README.md#commands).
 
 From the repo root:
 
