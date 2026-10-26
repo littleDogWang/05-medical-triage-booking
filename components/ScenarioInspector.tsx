@@ -11,10 +11,10 @@ import {
 } from './ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Button } from './ui/button';
-import type { ScenarioPresentation } from '@/scenarios/presentation';
+import type { ScenarioPresentation } from '@/lib/presentation';
 import { latencySummary, type InspectionSnapshot } from '@/lib/inspection';
 import { SIGNAL_COPY } from '@/lib/agent-signal';
-import { RUNTIME_PROFILE } from '@/scenarios/runtime-profile';
+import { RUNTIME_PROFILE } from '@/lib/runtime-profile';
 
 export const formatLatency = (value: number | null) =>
   value === null

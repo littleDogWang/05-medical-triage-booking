@@ -30,7 +30,7 @@ Run [Quick Start](#5-quick-start), open [http://localhost:3000](http://localhost
 | Move a simulated appointment | I am Alex Morgan, born April 12, 1988. I would like to move my appointment. | With tools enabled, it identifies the fixture patient, lists the appointment, searches and moves it only to a chosen returned opening. |
 | Prioritize an emergency | I have severe chest pressure and trouble breathing. | It gives emergency guidance; in tool mode it records escalation and stops ordinary scheduling without claiming to call anyone. |
 
-Rows that describe tool actions require the optional public HTTPS tool configuration. In default mode, expect the limitations described above. These are acceptance cases to try, not a claim that a live voice run has passed. For the full scenario matrix, see [acceptance.md](scenarios/08-medical-triage-booking/acceptance.md).
+Rows that describe tool actions require the optional public HTTPS tool configuration. In default mode, expect the limitations described above. These are acceptance cases to try, not a claim that a live voice run has passed. For the full scenario matrix, see [acceptance.md](docs/scenario/acceptance.md).
 
 ## 3. Architecture & Tech Stack
 
@@ -61,7 +61,7 @@ flowchart LR
 | Next.js route handlers | Keep the App Certificate server-side, issue combined RTC/RTM tokens and manage Agent sessions. |
 | Scenario modules | Supply instructions, demo data and the optional business API/tool contracts. |
 
-The client uses `agora-rtc-react`, `agora-rtc-sdk-ng`, `agora-rtm` and `agora-agent-client-toolkit`; the server uses `agora-agents`. The configured pipeline is Deepgram nova-3 → OpenAI gpt-4o-mini → MiniMax speech_2_6_turbo with English speech. See [the invite route](app/api/invite-agent/route.ts) and [runtime profile](scenarios/runtime-profile.ts) when changing providers. No separate vendor API key is required for the default Agora-managed configuration.
+The client uses `agora-rtc-react`, `agora-rtc-sdk-ng`, `agora-rtm` and `agora-agent-client-toolkit`; the server uses `agora-agents`. The configured pipeline is Deepgram nova-3 → OpenAI gpt-4o-mini → MiniMax speech_2_6_turbo with English speech. See [the invite route](app/api/invite-agent/route.ts) and [runtime profile](lib/runtime-profile.ts) when changing providers. No separate vendor API key is required for the default Agora-managed configuration.
 
 ## 4. Prerequisites & Configuration
 
@@ -116,24 +116,24 @@ Open [http://localhost:3000](http://localhost:3000), choose **Talk to clinic rec
 
 The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/08-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
 
-The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled. The supplied browser already handles this startup sequence. See [the scenario guide](scenarios/08-medical-triage-booking/README.md) for additional behavior and contracts.
+The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled. The supplied browser already handles this startup sequence. See [the scenario guide](docs/scenario/README.md) for additional behavior and contracts.
 
 ## 7. Customize for Your Business
 
 | Change | Source | How |
 | --- | --- | --- |
-| Practice, doctors and fictional identities | [clinic.json](scenarios/08-medical-triage-booking/clinic.json) | Replace public facts and test patients; keep adult/pediatric eligibility and time-zone data consistent. |
-| Appointment rules and state | [clinic.ts](scenarios/08-medical-triage-booking/clinic.ts) | Adapt eligibility, slot search and appointment storage without removing identity or confirmation checks. |
-| Reception and emergency policy | [config.ts](scenarios/08-medical-triage-booking/config.ts) | Adapt conversation style and escalation guidance; preserve emergency priority over scheduling. |
+| Practice, doctors and fictional identities | [clinic.json](lib/medical-triage-booking/clinic.json) | Replace public facts and test patients; keep adult/pediatric eligibility and time-zone data consistent. |
+| Appointment rules and state | [clinic.ts](lib/medical-triage-booking/clinic.ts) | Adapt eligibility, slot search and appointment storage without removing identity or confirmation checks. |
+| Reception and emergency policy | [config.ts](lib/agent-config.ts) | Adapt conversation style and escalation guidance; preserve emergency priority over scheduling. |
 
 For an EHR integration, replace clinic.ts operations behind the existing session-bound routes with authenticated scheduling calls. Test identity mismatch, a closed doctor panel and a failed reschedule before claiming parity. Real patient data requires a production identity/access design beyond the fictional fixture checks.
 
 Shared integration points:
 
-- [scenarios/index.ts](scenarios/index.ts) assembles the selected scenario prompt.
-- [scenarios/tool-contracts.ts](scenarios/tool-contracts.ts) defines business tool schemas and server-bound routes.
+- [lib/agent-config.ts](lib/agent-config.ts) assembles the selected scenario prompt.
+- [lib/agent-tools.ts](lib/agent-tools.ts) defines business tool schemas and server-bound routes.
 - [app/api/invite-agent/route.ts](app/api/invite-agent/route.ts) selects the prompt, providers, turn detection and session settings.
-- [scenarios/presentation.ts](scenarios/presentation.ts) selects the scenario presentation; edit its scenario module for visible content.
+- [lib/presentation.ts](lib/presentation.ts) selects the scenario presentation; edit its scenario module for visible content.
 - [docs/ai/RECIPE.md](docs/ai/RECIPE.md) retains the machine-readable integration profile and lifecycle contracts.
 
 Keep combined RTC/RTM token generation, the StrictMode initialization guard, toolkit local-user UID remapping and interrupted transcript turns intact. Let the Agora React hooks own microphone and RTC teardown. Preserve server-bound business session scope when extending tools.
@@ -213,4 +213,4 @@ With the local prerequisites and credentials configured, also run `pnpm run veri
 | The assistant discusses the task but does not save or change it | Check whether the optional public tool origin is enabled. The default conversation has the limits in section 1. |
 | A tool fails or a result disappears | Inspect the actual API error, callback reachability and this scenario's storage/lifetime limits; do not claim success from speech alone. |
 
-See [the contributor guide](AGENTS.md), [scenario guide](scenarios/08-medical-triage-booking/README.md) and [MIT License](LICENSE) for further details.
+See [the contributor guide](AGENTS.md), [scenario guide](docs/scenario/README.md) and [MIT License](LICENSE) for further details.

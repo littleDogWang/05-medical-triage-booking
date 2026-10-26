@@ -11,7 +11,7 @@
 | Language | TypeScript, Next.js 16 App Router, React 19 |
 | Deploy Target | Single Node.js process or Docker; see architecture for state/persistence limits |
 | Owner | littleDogWang; upstream Agora Community attribution retained |
-| Last Reviewed | 2026-10-23 |
+| Last Reviewed | 2026-10-26 |
 | Recipe Role | base (standalone scenario derived from the official voice quickstart) |
 | Recipe Version | 0.2.0 |
 | Recipe Status | draft |

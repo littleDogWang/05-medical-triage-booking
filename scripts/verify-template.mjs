@@ -6,7 +6,11 @@ const root = process.cwd();
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const pkg = JSON.parse(read('package.json'));
 const id = pkg.name;
+assert.ok(!fs.existsSync(path.join(root, 'scenarios')), 'Use the standalone Quickstart layout, not a root scenario registry.');
 const required = [
+  'lib/agent-config.ts', 'lib/agent-tools.ts', 'lib/presentation.ts',
+  'lib/runtime-profile.ts', 'types/agent-config.ts', 'types/presentation.ts',
+  'docs/scenario/README.md',
   'README.md', 'RECIPE.md', 'AGENTS.md', 'ARCHITECTURE.md', 'CONTRIBUTING.md',
   'CLAUDE.md', 'LICENSE', '.gitignore', '.dockerignore', 'Dockerfile',
   '.github/workflows/ci.yml', '.github/workflows/docker.yml', 'env.local.example',

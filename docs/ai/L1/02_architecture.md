@@ -16,7 +16,7 @@ The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, 
 
 ## Ownership Boundaries
 
-LandingPage owns pre-call bootstrap/RTM; ConversationComponent owns joined RTC/toolkit subscriptions. Token/invite/stop routes own privileged operations. `scenarios/08-medical-triage-booking/` owns business rules/data; tool-contracts owns server-bound tool execution scope. Session evidence and manually selected outcomes are not automatic proof of business completion.
+LandingPage owns pre-call bootstrap/RTM; ConversationComponent owns joined RTC/toolkit subscriptions. Token/invite/stop routes own privileged operations. `lib/medical-triage-booking/` owns business rules/data; tool-contracts owns server-bound tool execution scope. Session evidence and manually selected outcomes are not automatic proof of business completion.
 
 ## Runtime Modes
 

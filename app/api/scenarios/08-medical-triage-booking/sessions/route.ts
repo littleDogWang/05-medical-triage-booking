@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClinicSession } from '@/scenarios/08-medical-triage-booking/clinic';
+import { createClinicSession } from '@/lib/medical-triage-booking/clinic';
 
 export const runtime = 'nodejs';
 

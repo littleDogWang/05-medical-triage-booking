@@ -10,10 +10,10 @@ import {
 } from 'agora-agents';
 import { ClientStartRequest, AgentResponse } from '@/types/conversation';
 import { DEFAULT_AGENT_UID } from '@/lib/agora';
-import { getScenarioConfig, getScenarioPrompt } from '@/scenarios';
-import clinicData from '@/scenarios/08-medical-triage-booking/clinic.json';
-import { getToolBaseUrl, getScenarioTools } from '@/scenarios/tool-contracts';
-import { ClinicError, clinicClock, createClinicSession, deleteClinicSession } from '@/scenarios/08-medical-triage-booking/clinic';
+import { getScenarioConfig, getScenarioPrompt } from '@/lib/agent-config';
+import clinicData from '@/lib/medical-triage-booking/clinic.json';
+import { getToolBaseUrl, getScenarioTools } from '@/lib/agent-tools';
+import { ClinicError, clinicClock, createClinicSession, deleteClinicSession } from '@/lib/medical-triage-booking/clinic';
 
 // agentUid identifies the AI in the RTC channel and shares its default with the client.
 const agentUid = String(DEFAULT_AGENT_UID);

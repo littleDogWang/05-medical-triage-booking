@@ -17,7 +17,7 @@ Open http://localhost:3000 and start the scenario. Confirm actual two-way audio 
 
 ## Modify The Agent Or Core Flow
 
-Edit `scenarios/08-medical-triage-booking/config.ts` and the selected data/rules, then inspect prompt assembly in scenarios/index.ts and provider/turn detection in the invite route. Preserve the internal recipe invariants. Run scenario/API checks and canonical verify; repeat real speech cases for timing or behavior changes.
+Edit `lib/agent-config.ts` and the selected data/rules, then inspect prompt assembly in lib/agent-config.ts and provider/turn detection in the invite route. Preserve the internal recipe invariants. Run scenario/API checks and canonical verify; repeat real speech cases for timing or behavior changes.
 
 ## Modify The Client Or UI
 

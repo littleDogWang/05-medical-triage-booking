@@ -4,11 +4,11 @@
 
 ## Source Files
 
-- `scenarios/08-medical-triage-booking/config.ts`: role, workflow, guardrails and greeting.
-- `scenarios/index.ts`: selected prompt and default/tool mode context.
-- `scenarios/tool-contracts.ts`: optional tool origin validation, schemas and server-bound scope.
+- `lib/agent-config.ts`: role, workflow, guardrails and greeting.
+- `lib/agent-config.ts`: selected prompt and default/tool mode context.
+- `lib/agent-tools.ts`: optional tool origin validation, schemas and server-bound scope.
 - `app/api/invite-agent/route.ts`: actual SDK builder and session options.
-- `scenarios/runtime-profile.ts`: non-secret configured provider/model display.
+- `lib/runtime-profile.ts`: non-secret configured provider/model display.
 
 There are no generic Ada/ADA_PROMPT constants to edit. Use the scenario config and prompt assembly actually imported by the invite route.
 

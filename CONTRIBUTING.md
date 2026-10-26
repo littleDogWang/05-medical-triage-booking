@@ -16,7 +16,7 @@ Use English TypeScript/documentation and the existing ESLint configuration. Keep
 
 `pnpm run verify` runs pnpm run doctor && pnpm run verify:template && pnpm run lint && pnpm run typecheck && pnpm run verify:api && pnpm run verify:scenario && pnpm run build. Focused checks are listed in [README commands](README.md#commands).
 
-`pnpm run verify:docker` separately builds the production image and checks startup plus a scenario route with synthetic credentials. A running Docker engine is required. No real Agora session is started by this check. Run a real microphone and cloud-tool session for speech acceptance; the scenarios' [acceptance matrix](scenarios/08-medical-triage-booking/acceptance.md) defines the cases.
+`pnpm run verify:docker` separately builds the production image and checks startup plus a scenario route with synthetic credentials. A running Docker engine is required. No real Agora session is started by this check. Run a real microphone and cloud-tool session for speech acceptance; the scenarios' [acceptance matrix](docs/scenario/acceptance.md) defines the cases.
 
 ## Pull Requests
 

@@ -106,3 +106,13 @@ TOP_TEN_SCENARIO_TOOL_BASE_URL is optional. Only an explicitly configured public
 ## U.S. example data
 
 The fictional clinic address is in Boston, Massachusetts, and appointment times use `America/New_York`. Dr. Maya Bennett is the configured family-medicine doctor; doctor IDs remain consistent across fixtures, seeded appointments and tool schemas.
+
+## Source locations
+
+This guide lives in documentation; executable code uses the standalone Next.js
+Quickstart layout. Agent instructions and prompt assembly are in
+[lib/agent-config.ts](../../lib/agent-config.ts), optional tool contracts are in
+[lib/agent-tools.ts](../../lib/agent-tools.ts), and presentation content is in
+[lib/presentation.ts](../../lib/presentation.ts). Business modules and fixtures
+live in [lib/medical-triage-booking/](../../lib/medical-triage-booking/). File basenames in this guide
+refer to these source locations, not to files next to this document.

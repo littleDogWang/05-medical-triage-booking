@@ -1,5 +1,3 @@
-import { presentation } from './08-medical-triage-booking/presentation';
-
 export interface ScenarioPresentation {
   id: string;
   name: string;
@@ -24,8 +22,4 @@ export interface ScenarioPresentation {
     skillsUrl: string;
     extensionPoints: { title: string; path: string }[];
   };
-}
-
-export function getScenarioPresentation(): ScenarioPresentation {
-  return presentation;
 }

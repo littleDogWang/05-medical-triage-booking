@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ClinicError, runClinicTool } from '@/scenarios/08-medical-triage-booking/clinic';
+import { ClinicError, runClinicTool } from '@/lib/medical-triage-booking/clinic';
 
 export const runtime = 'nodejs';
 

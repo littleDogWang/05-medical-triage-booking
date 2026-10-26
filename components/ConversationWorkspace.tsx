@@ -6,7 +6,7 @@ import { AgentSignal } from './AgentSignal';
 import { Button } from './ui/button';
 import { SIGNAL_COPY, type AgentSignalSnapshot } from '@/lib/agent-signal';
 import type { InspectionSnapshot } from '@/lib/inspection';
-import type { ScenarioPresentation } from '@/scenarios/presentation';
+import type { ScenarioPresentation } from '@/lib/presentation';
 
 export function ConversationWorkspace({
   children,

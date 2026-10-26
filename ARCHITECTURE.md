@@ -4,7 +4,7 @@
 
 A receptionist for the fictional Agora Family Clinic in Boston answers practice questions and, with tools enabled, identifies a fictional patient, finds eligible openings, and books, lists, moves or cancels simulated appointments. Emergency meaning takes priority over routine scheduling.
 
-One Next.js process owns the browser application and its HTTP routes. Agora cloud owns the managed STT → LLM → TTS pipeline; the browser is not a local speech/model runtime. The default provider configuration is recorded in the invite route and `scenarios/runtime-profile.ts`.
+One Next.js process owns the browser application and its HTTP routes. Agora cloud owns the managed STT → LLM → TTS pipeline; the browser is not a local speech/model runtime. The default provider configuration is recorded in the invite route and `lib/runtime-profile.ts`.
 
 ## Component Topology
 
@@ -32,8 +32,8 @@ Scenario routes -> process-local state
 - `components/ConversationComponent.tsx`: RTC/microphone hooks, toolkit events and transcript snapshots.
 - `app/api/generate-agora-token/route.ts`: RTM-capable token creation.
 - `app/api/invite-agent/route.ts`: privileged Agent configuration and startup.
-- `scenarios/08-medical-triage-booking/`: source of truth for scenario-specific rules and data.
-- `scenarios/tool-contracts.ts`: available tools, parameter schemas and server-bound call scope.
+- `lib/medical-triage-booking/`: source of truth for scenario-specific rules and data.
+- `lib/agent-tools.ts`: available tools, parameter schemas and server-bound call scope.
 - `lib/conversation.ts`: transcript UID/text normalization.
 
 ## Authentication And Secrets
@@ -59,4 +59,4 @@ The browser supplies `requester_id` and `channel_name`; the invite route creates
 
 The token route returns `{ token, uid, channel }`; stop accepts `{ agent_id }` and handles an already-stopping session idempotently. Only public clinic facts, policies, doctors and example appointment times enter the prompt; patient fixtures are excluded. The assistant discusses appointment intent but cannot verify identity, find actual openings or change appointments. Six tools operate on an isolated simulated call. The server creates the clinic session only when a valid public tool origin is configured. No hospital, calendar or EHR account is needed.
 
-See [Interfaces](docs/ai/L1/06_interfaces.md), [internal recipe](docs/ai/RECIPE.md) and [scenario guide](scenarios/08-medical-triage-booking/README.md) for contracts. Static checks, native startup, Docker startup and complete live speech/tool outcomes are separate evidence.
+See [Interfaces](docs/ai/L1/06_interfaces.md), [internal recipe](docs/ai/RECIPE.md) and [scenario guide](docs/scenario/README.md) for contracts. Static checks, native startup, Docker startup and complete live speech/tool outcomes are separate evidence.

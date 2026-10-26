@@ -394,7 +394,7 @@ async function verifyInviteAgentSuccess() {
 
 async function verifyClinicInviteFailures() {
   const { POST: inviteAgent } = await import('../app/api/invite-agent/route');
-  const { runClinicTool } = await import('../scenarios/08-medical-triage-booking/clinic');
+  const { runClinicTool } = await import('../lib/medical-triage-booking/clinic');
   const originalOrigin = process.env.TOP_TEN_SCENARIO_TOOL_BASE_URL;
   const originalCreateSession = Agent.prototype.createSession;
   let createCalls = 0;

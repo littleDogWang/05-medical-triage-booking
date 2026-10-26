@@ -3,7 +3,7 @@
 import { useCallback, useState, type ReactNode } from 'react';
 import { EMPTY_INSPECTION, type InspectionSnapshot } from '@/lib/inspection';
 import type { AgentSignalSnapshot } from '@/lib/agent-signal';
-import { getScenarioPresentation } from '@/scenarios/presentation';
+import { getScenarioPresentation } from '@/lib/presentation';
 import { ScenarioIdentity } from './ScenarioIdentity';
 import { ConversationWorkspace } from './ConversationWorkspace';
 import { QuickstartPreCallCard, ScenarioEntryDialog } from './QuickstartPreCallCard';

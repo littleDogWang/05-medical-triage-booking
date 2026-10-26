@@ -19,7 +19,7 @@ Use the scenario-specific entry and persistent identity; starting voice requires
 
 
 
-See [scenario guide](../../../scenarios/08-medical-triage-booking/README.md) and the scenario source for exact business request shapes, validation errors and ownership rules.
+See [scenario guide](../../scenario/README.md) and the scenario source for exact business request shapes, validation errors and ownership rules.
 
 ## Events And Media
 

@@ -12,8 +12,8 @@ This checkout is the 08-medical-triage-booking scenario derivative of the offici
 | --- | --- | --- |
 | Setup and env | package.json, env.local.example | [Setup](../01_setup.md) |
 | Voice lifecycle | components/LandingPage.tsx, components/ConversationComponent.tsx | [Lifecycle](conversation_lifecycle.md) |
-| Scenario prompt and fixtures | scenarios/08-medical-triage-booking/config.ts and local data | [Public recipe](../../../../RECIPE.md) |
-| Agent providers and tools | app/api/invite-agent/route.ts, scenarios/tool-contracts.ts | [Agent configuration](invite_agent_config.md) |
+| Scenario prompt and fixtures | lib/agent-config.ts and local data | [Public recipe](../../../../RECIPE.md) |
+| Agent providers and tools | app/api/invite-agent/route.ts, lib/agent-tools.ts | [Agent configuration](invite_agent_config.md) |
 | API and call scope | app/api/scenarios, types/conversation.ts | [Interfaces](../06_interfaces.md) |
 | Tokens and renewal | app/api/generate-agora-token/route.ts | [Token model](token_model.md) |
 | State and deployment | ARCHITECTURE.md, Dockerfile | [Architecture](../../../../ARCHITECTURE.md) |

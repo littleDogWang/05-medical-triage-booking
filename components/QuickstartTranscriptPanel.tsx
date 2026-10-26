@@ -2,7 +2,7 @@
 
 import { ConversationPanel } from './agent-ui/conversation-panel';
 import type { VoiceState } from './status';
-import { getScenarioPresentation } from '@/scenarios/presentation';
+import { getScenarioPresentation } from '@/lib/presentation';
 
 type TranscriptMessage = {
   turn_id?: string | number;

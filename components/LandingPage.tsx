@@ -2,7 +2,7 @@
 
 import { useState, useRef, Suspense, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { getScenarioPresentation } from '@/scenarios/presentation';
+import { getScenarioPresentation } from '@/lib/presentation';
 import type { RTMClient } from 'agora-rtm';
 import type {
   AgoraTokenData,

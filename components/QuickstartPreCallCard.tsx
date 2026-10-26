@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from './ui/dialog';
-import type { ScenarioPresentation } from '@/scenarios/presentation';
+import type { ScenarioPresentation } from '@/lib/presentation';
 
 function ScenarioFeatures({ scenario }: { scenario: ScenarioPresentation }) {
   return (

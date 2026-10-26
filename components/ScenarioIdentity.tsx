@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import { Button } from './ui/button';
-import type { ScenarioPresentation } from '@/scenarios/presentation';
+import type { ScenarioPresentation } from '@/lib/presentation';
 
 export function ScenarioIdentity({
   scenario,

@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from './ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import type { ScenarioPresentation } from '@/scenarios/presentation';
+import type { ScenarioPresentation } from '@/lib/presentation';
 
 function CopyText({ text, label }: { text: string; label: string }) {
   const [result, setResult] = useState('');

@@ -1,5 +1,5 @@
 import type { LlmTool } from 'agora-agents';
-import { ClinicError } from './08-medical-triage-booking/clinic';
+import { ClinicError } from './medical-triage-booking/clinic';
 
 type Properties = Record<string, Record<string, unknown>>;
 const string = (description: string) => ({ type: 'string', description });

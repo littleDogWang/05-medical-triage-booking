@@ -1,4 +1,5 @@
-import type { ScenarioPresentation } from '../presentation';
+import type { ScenarioPresentation } from '@/types/presentation';
+export type { ScenarioPresentation } from '@/types/presentation';
 
 export const presentation: ScenarioPresentation = {
   "id": "08-medical-triage-booking",
@@ -53,15 +54,15 @@ export const presentation: ScenarioPresentation = {
     "extensionPoints": [
       {
         "title": "Change assistant instructions",
-        "path": "scenarios/08-medical-triage-booking/config.ts"
+        "path": "lib/agent-config.ts"
       },
       {
         "title": "Adapt clinic.ts",
-        "path": "scenarios/08-medical-triage-booking/clinic.ts"
+        "path": "lib/medical-triage-booking/clinic.ts"
       },
       {
         "title": "Adapt clinic.json",
-        "path": "scenarios/08-medical-triage-booking/clinic.json"
+        "path": "lib/medical-triage-booking/clinic.json"
       },
       {
         "title": "Choose models and voice",
@@ -69,8 +70,12 @@ export const presentation: ScenarioPresentation = {
       },
       {
         "title": "Adapt scenario UI content",
-        "path": "scenarios/08-medical-triage-booking/presentation.ts"
+        "path": "lib/presentation.ts"
       }
     ]
   }
 };
+
+export function getScenarioPresentation(): ScenarioPresentation {
+  return presentation;
+}
