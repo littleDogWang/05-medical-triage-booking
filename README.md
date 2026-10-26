@@ -67,7 +67,9 @@ Optional BYOK credentials appear only in the invite route's commented provider b
 | `pnpm run lint` | `eslint .` |
 | `pnpm run verify:api` | `node --import tsx scripts/verify-api-contracts.ts` |
 | `pnpm run typecheck` | `tsc --noEmit` |
-| `pnpm run verify` | Canonical local/CI checks: `pnpm run doctor`, `pnpm run verify:template`, `pnpm run lint`, `pnpm run typecheck`, `pnpm run verify:api`, `pnpm run verify:scenario`, `pnpm run build` |
+| `pnpm run verify` | Canonical local/CI checks: `pnpm run doctor`, `pnpm run verify:template`, `pnpm run lint`, `pnpm run typecheck`, `pnpm run verify:api`, `pnpm run verify:signal`, `pnpm run verify:inspection`, `pnpm run verify:scenario`, `pnpm run build` |
+| `pnpm run verify:signal` | Activity state mapping and measured-audio checks. |
+| `pnpm run verify:inspection` | Inspector measurements, bounded history and presentation checks. |
 | `pnpm run verify:scenario` | `node --import tsx scripts/verify-scenario.ts` |
 | `pnpm run dev:clinic` | `node scripts/dev-clinic.mjs` |
 | `pnpm run verify:template` | Standard repository paths, identity, documentation links and delivery contracts. |
@@ -116,7 +118,7 @@ The browser supplies `requester_id` and `channel_name`; the invite route creates
 - `lib/medical-triage-booking/`: repository-local business data and rules.
 - `lib/agent-config.ts`, `lib/agent-tools.ts`: prompt and optional tool assembly.
 - `types/`: application, Agent configuration and presentation types.
-- `docs/scenario/`: business guide, design and acceptance cases.
+- `docs/scenario/`: business guide and acceptance cases.
 - `scripts/`: doctor, contracts, scenario checks and delivery verification.
 - `docs/ai/`: AI loading card, internal recipe, all eight L1 summaries and L2 deep dives.
 
@@ -160,4 +162,4 @@ Use fictional business data. The sample is not a production authentication, auth
 
 ## License
 
-Released under the [MIT License](LICENSE). Preserve upstream copyright and source attribution.
+Released under the [MIT License](LICENSE). Preserve upstream copyright and source attribution. See [third-party notices](THIRD_PARTY_NOTICES.md) for UI source and font attribution.

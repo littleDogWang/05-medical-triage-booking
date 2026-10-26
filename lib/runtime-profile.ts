@@ -1,4 +1,4 @@
-// Non-secret display of the pipeline configured in app/api/invite-agent/route.ts.
+// Shared non-secret configuration: the server consumes these exact model IDs.
 export const RUNTIME_PROFILE = {
   recognition: { provider: 'Deepgram', model: 'nova-3', language: 'en' },
   reasoning: { provider: 'OpenAI', model: 'gpt-4o-mini' },

@@ -10,6 +10,7 @@ import {
 } from 'agora-agents';
 import { ClientStartRequest, AgentResponse } from '@/types/conversation';
 import { DEFAULT_AGENT_UID } from '@/lib/agora';
+import { RUNTIME_PROFILE } from '@/lib/runtime-profile';
 import { getScenarioConfig, getScenarioPrompt } from '@/lib/agent-config';
 import clinicData from '@/lib/medical-triage-booking/clinic.json';
 import { getToolBaseUrl, getScenarioTools } from '@/lib/agent-tools';
@@ -103,8 +104,8 @@ export async function POST(request: NextRequest) {
     })
       .withStt(
         new DeepgramSTT({
-          model: 'nova-3',
-          language: 'en',
+          model: RUNTIME_PROFILE.recognition.model,
+          language: RUNTIME_PROFILE.recognition.language,
         }),
         // BYOK: uncomment the following block and set NEXT_DEEPGRAM_API_KEY
         // new DeepgramSTT({
@@ -115,7 +116,7 @@ export async function POST(request: NextRequest) {
       )
       .withLlm(
         new OpenAI({
-          model: 'gpt-4o-mini',
+          model: RUNTIME_PROFILE.reasoning.model,
           greetingMessage: scenario.greeting,
           failureMessage: 'Please wait a moment.',
           maxHistory: 15,
@@ -141,8 +142,8 @@ export async function POST(request: NextRequest) {
       )
       .withTts(
         new MiniMaxTTS({
-          model: 'speech_2_6_turbo',
-          voiceId: 'English_captivating_female1',
+          model: RUNTIME_PROFILE.synthesis.model,
+          voiceId: RUNTIME_PROFILE.synthesis.voice,
         }),
         // BYOK — ElevenLabs (set NEXT_ELEVENLABS_API_KEY; optional NEXT_ELEVENLABS_VOICE_ID)
         // new (await import('agora-agents')).ElevenLabsTTS({

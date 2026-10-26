@@ -10,7 +10,8 @@ assert.ok(!fs.existsSync(path.join(root, 'scenarios')), 'Use the standalone Quic
 const required = [
   'lib/agent-config.ts', 'lib/agent-tools.ts', 'lib/presentation.ts',
   'lib/runtime-profile.ts', 'types/agent-config.ts', 'types/presentation.ts',
-  'docs/scenario/README.md',
+  'docs/scenario/README.md', 'docs/scenario/acceptance.md', 'THIRD_PARTY_NOTICES.md',
+  'scripts/verify-signal-states.ts', 'scripts/verify-inspection.ts',
   'README.md', 'RECIPE.md', 'AGENTS.md', 'ARCHITECTURE.md', 'CONTRIBUTING.md',
   'CLAUDE.md', 'LICENSE', '.gitignore', '.dockerignore', 'Dockerfile',
   '.github/workflows/ci.yml', '.github/workflows/docker.yml', 'env.local.example',
@@ -20,6 +21,20 @@ const required = [
     .map((name) => 'docs/ai/L1/' + name + '.md'),
 ];
 for (const file of required) assert.ok(fs.existsSync(path.join(root, file)), 'Missing ' + file);
+for (const file of ['tailwind.config.ts', 'components/ScenarioShell.tsx', 'docs/scenario/design.md']) {
+  assert.ok(!fs.existsSync(path.join(root, file)), 'Obsolete standalone source: ' + file);
+}
+assert.equal(JSON.parse(read('components.json')).tailwind.config, '', 'Tailwind 4 uses CSS configuration.');
+assert.match(read('postcss.config.mjs'), /@tailwindcss\/postcss/);
+for (const file of ['app/page.tsx', 'components/LandingPage.tsx']) {
+  assert.ok(!/entry=recipes|skipEntryDialog/.test(read(file)), 'Do not couple entry behavior to Recipes: ' + file);
+}
+for (const field of ['recognition.model', 'recognition.language', 'reasoning.model', 'synthesis.model', 'synthesis.voice']) {
+  assert.ok(read('app/api/invite-agent/route.ts').includes('RUNTIME_PROFILE.' + field), 'Invite must consume runtime-profile: ' + field);
+}
+for (const command of ['verify:signal', 'verify:inspection']) {
+  assert.ok(pkg.scripts[command], 'Missing public runtime check: ' + command);
+}
 assert.ok(!fs.existsSync(path.join(root, 'STANDARD.md')), 'Do not copy the central standard into a scenario.');
 assert.equal(read('CLAUDE.md'), 'This project uses AGENTS.md instead of a CLAUDE.md file.\n\nPlease see @AGENTS.md in this same directory and treat its content as the primary reference for this project.', 'CLAUDE.md must match the fixed template exactly.');
 assert.equal(pkg.packageManager, 'pnpm@9.15.9');

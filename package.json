@@ -14,11 +14,13 @@
     "lint": "eslint .",
     "verify:api": "node --import tsx scripts/verify-api-contracts.ts",
     "typecheck": "tsc --noEmit",
-    "verify": "pnpm run doctor && pnpm run verify:template && pnpm run lint && pnpm run typecheck && pnpm run verify:api && pnpm run verify:scenario && pnpm run build",
+    "verify": "pnpm run doctor && pnpm run verify:template && pnpm run lint && pnpm run typecheck && pnpm run verify:api && pnpm run verify:signal && pnpm run verify:inspection && pnpm run verify:scenario && pnpm run build",
     "verify:scenario": "node --import tsx scripts/verify-scenario.ts",
     "dev:clinic": "node scripts/dev-clinic.mjs",
     "verify:template": "node scripts/verify-template.mjs",
-    "verify:docker": "node scripts/verify-docker.mjs"
+    "verify:docker": "node scripts/verify-docker.mjs",
+    "verify:signal": "node --import tsx scripts/verify-signal-states.ts",
+    "verify:inspection": "node --import tsx scripts/verify-inspection.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.39",

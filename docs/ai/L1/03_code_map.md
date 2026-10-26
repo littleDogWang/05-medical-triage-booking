@@ -10,7 +10,7 @@ components/             voice lifecycle, transcript and scenario UI
 lib/medical-triage-booking/         business data and rules
 lib/                    Agent config, tools, presentation and lifecycle helpers
 types/                  application and Agent/presentation contracts
-docs/scenario/          business guide, design and acceptance cases
+docs/scenario/          business guide and acceptance cases
 scripts/                environment, scenario and delivery verification
 docs/ai/L1/L2/          deeper lifecycle and integration guidance
 ```
@@ -28,6 +28,7 @@ docs/ai/L1/L2/          deeper lifecycle and integration guidance
 - `lib/agent-config.ts`: Reception and emergency policy.
 - `package.json`: pinned pnpm and canonical verification.
 - `Dockerfile`, `scripts/verify-docker.mjs`: actual image and container smoke contract.
+- `scripts/verify-signal-states.ts`, `scripts/verify-inspection.ts`: shared activity and Inspector checks.
 - `scripts/verify-template.mjs`: required paths, identity, link and command consistency.
 
 ## Ownership Map
