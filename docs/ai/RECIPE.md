@@ -56,6 +56,10 @@ Limits: All patients, slots and bookings are fictional. The assistant does not d
 
 ## Baseline Implementation Guidance
 
+The optional custom-LLM endpoint keeps HTTP wiring in `app/api/chat/completions/route.ts`
+and its reusable/testable SSE handler in `lib/chat-completions.ts`, following the
+official Next.js starter. This does not enable custom LLM mode by default.
+
 The upstream baseline is [AgoraIO-Conversational-AI/agent-quickstart-nextjs](https://github.com/AgoraIO-Conversational-AI/agent-quickstart-nextjs). This repository is its scenario derivative, not a replacement identity for upstream. Use current source and the [code map](L1/03_code_map.md); do not recreate SDK schemas, tokens or lifecycle from memory. [Bootstrap guidance](L1/L2/from_scratch_bootstrap.md) documents the copy map.
 
 ## Extension Points

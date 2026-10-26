@@ -20,6 +20,8 @@ docs/ai/L1/L2/          deeper lifecycle and integration guidance
 - `app/api/generate-agora-token/route.ts`: combined RTC/RTM tokens.
 - `app/api/invite-agent/route.ts`: prompt/provider assembly and Agent startup.
 - `app/api/stop-conversation/route.ts`: Agent stop.
+- `app/api/chat/completions/route.ts`: optional custom-LLM HTTP entry.
+- `lib/chat-completions.ts`: OpenAI-compatible SSE handler and injected provider dependencies.
 - `components/LandingPage.tsx`: browser bootstrap, RTM, token renewal and end.
 - `components/ConversationComponent.tsx`: RTC/toolkit, transcript and activity/evidence events.
 - `lib/agent-tools.ts`: tool schemas, origin validation and call-bound paths.

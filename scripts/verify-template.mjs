@@ -8,7 +8,7 @@ const pkg = JSON.parse(read('package.json'));
 const id = pkg.name;
 assert.ok(!fs.existsSync(path.join(root, 'scenarios')), 'Use the standalone Quickstart layout, not a root scenario registry.');
 const required = [
-  'lib/agent-config.ts', 'lib/agent-tools.ts', 'lib/presentation.ts',
+  'lib/agent-config.ts', 'lib/agent-tools.ts', 'lib/chat-completions.ts', 'lib/presentation.ts',
   'lib/runtime-profile.ts', 'types/agent-config.ts', 'types/presentation.ts',
   'docs/scenario/README.md', 'docs/scenario/acceptance.md', 'THIRD_PARTY_NOTICES.md',
   'scripts/verify-signal-states.ts', 'scripts/verify-inspection.ts',
@@ -24,6 +24,7 @@ for (const file of required) assert.ok(fs.existsSync(path.join(root, file)), 'Mi
 for (const file of ['tailwind.config.ts', 'components/ScenarioShell.tsx', 'docs/scenario/design.md']) {
   assert.ok(!fs.existsSync(path.join(root, file)), 'Obsolete standalone source: ' + file);
 }
+assert.ok(!read('app/api/chat/completions/route.ts').includes('export function'), 'Keep implementation helpers out of the HTTP route exports.');
 assert.equal(JSON.parse(read('components.json')).tailwind.config, '', 'Tailwind 4 uses CSS configuration.');
 assert.match(read('postcss.config.mjs'), /@tailwindcss\/postcss/);
 for (const file of ['app/page.tsx', 'components/LandingPage.tsx']) {
