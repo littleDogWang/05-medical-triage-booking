@@ -1,14 +1,10 @@
 import {
-  type AgentState,
   type AgentTranscription,
   TurnStatus,
   type TranscriptHelperItem,
   type UserTranscription,
 } from 'agora-agent-client-toolkit';
-import {
-  type AgentVisualizerState,
-  type IMessageListItem,
-} from 'agora-agent-uikit';
+import type { IMessageListItem } from 'agora-agent-uikit';
 
 // Fixes compacted punctuation emitted by some TTS/ASR providers where sentence-ending
 // characters run directly into the next word (e.g. "Hello.World" → "Hello. World").
@@ -24,46 +20,6 @@ export function normalizeTranscriptSpacing(text: string): string {
 // RTC events use milliseconds. Values already above 1e12 are milliseconds; others need scaling.
 export function normalizeTimestampMs(timestamp: number): number {
   return timestamp > 1e12 ? timestamp : timestamp * 1000;
-}
-
-// Maps the combined (agentState + RTC connection + agent presence) signal to the
-// AgentVisualizer's display states. RTC transport problems take priority over
-// agent-level state to avoid showing "listening" or "talking" during a reconnect.
-export function mapAgentVisualizerState(
-  agentState: AgentState | null,
-  isAgentConnected: boolean,
-  connectionState: string,
-): AgentVisualizerState {
-  if (
-    connectionState === 'DISCONNECTED' ||
-    connectionState === 'DISCONNECTING'
-  ) {
-    return 'disconnected';
-  }
-
-  if (
-    connectionState === 'CONNECTING' ||
-    connectionState === 'RECONNECTING'
-  ) {
-    return 'joining';
-  }
-
-  if (!isAgentConnected) {
-    return 'not-joined';
-  }
-
-  switch (agentState) {
-    case 'listening':
-      return 'listening';
-    case 'thinking':
-      return 'analyzing';
-    case 'speaking':
-      return 'talking';
-    case 'idle':
-    case 'silent':
-    default:
-      return 'ambient';
-  }
 }
 
 // Adapts a toolkit TranscriptHelperItem to the shape expected by agora-agent-uikit.

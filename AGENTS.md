@@ -84,10 +84,10 @@ Use Node.js 22+ and pnpm 9.15.9. The tracked example is `env.local.example`; loc
 - `components/LandingPage.tsx`: session bootstrap, RTM setup, provider wiring, and conversation lifecycle.
 - `components/ConversationComponent.tsx`: RTC join, mic publication, `AgoraVoiceAI` init, transcript state, and renewals.
 - `components/QuickstartConversationLayout.tsx`: in-call header, transcript rail, and controls dock.
-- `components/QuickstartPipelineMetrics.tsx`: per-stage latency chips from `AGENT_METRICS`.
+- `components/ScenarioInspector.tsx`: retained session metrics, evidence and manual outcomes.
 - `components/QuickstartTranscriptPanel.tsx`: live transcript rail.
 - `lib/agora.ts`: shared agent UID defaults.
-- `lib/conversation.ts`: transcript normalization and visualizer state mapping.
+- `lib/conversation.ts`: transcript normalization and message segmentation.
 - `env.local.example`: local environment template.
 - `scripts/verify-api-contracts.ts`: route contract verification.
 

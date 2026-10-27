@@ -27,22 +27,20 @@ Primary pipeline:
 
 If the first agent turn is interrupted and omitted, `messageList` can remain empty and transcript auto-open logic may never engage. Keeping interrupted turns preserves user-visible causality.
 
-## Agent Visualizer Mapping
+## Agent Activity Mapping
 
-`mapAgentVisualizerState` prioritizes RTC transport state before agent semantic state:
+`mapSignalState` in `lib/agent-signal.ts` prioritizes transport errors before agent activity:
 
-- `DISCONNECTED`/`DISCONNECTING` -> `disconnected`
-- `CONNECTING`/`RECONNECTING` -> `joining`
-- no agent presence -> `not-joined`
-- otherwise map agent states (`listening`, `thinking`, `speaking`, idle-like)
-
-This avoids showing optimistic speech/listen states while transport is degraded.
+- An error or `DISCONNECTED`/`DISCONNECTING` maps to `error`.
+- `CONNECTING`/`RECONNECTING` or no agent presence maps to `connecting`.
+- Connected `listening`, `thinking` and `speaking` retain their semantic state.
+- Other connected states map to `idle`; microphone state remains independent.
 
 ## Metrics and Error Streams
 
 Handled signals:
 
-- `AGENT_METRICS` for per-stage latency chips.
+- `AGENT_METRICS` for retained Inspector reports.
 - `MESSAGE_ERROR` and `AGENT_ERROR` for surfaced issues.
 - `MESSAGE_SAL_STATUS` for registration failures (`VP_REGISTER_FAIL`, `VP_REGISTER_DUPLICATE`).
 
@@ -53,7 +51,8 @@ Fallback parser:
 ## Coupled Files
 
 - `components/ConversationComponent.tsx`: event subscriptions and issue collection.
-- `lib/conversation.ts`: transcript + visualizer mapping transforms.
+- `lib/conversation.ts`: transcript normalization and message segmentation.
+- `lib/agent-signal.ts`: transport-aware activity mapping.
 - `components/QuickstartTranscriptPanel.tsx`: transcript render sink.
-- `components/QuickstartPipelineMetrics.tsx`: metrics render sink.
+- `components/ScenarioInspector.tsx`: retained metrics and session evidence.
 - `components/ConnectionStatusPanel.tsx`: surfaced connection diagnostics.
