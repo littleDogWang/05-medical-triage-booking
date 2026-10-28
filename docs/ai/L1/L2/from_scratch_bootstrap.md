@@ -4,7 +4,7 @@
 
 ## Baseline Rule
 
-This checkout is the 08-medical-triage-booking scenario derivative of the official Agora Next.js voice quickstart. Read its current source before adapting SDK, token or event behavior. Do not generate a replacement integration from memory.
+This checkout is the 05-medical-triage-booking scenario derivative of the official Agora Next.js voice quickstart. Read its current source before adapting SDK, token or event behavior. Do not generate a replacement integration from memory.
 
 ## Implementation Map
 

@@ -2,7 +2,7 @@
 
 Handle clinic questions and a complete simulated appointment conversation.
 
-[Try locally](#2-try-the-demo) · [Source on GitHub](https://github.com/littleDogWang/08-medical-triage-booking) · [Build with AI](#build-with-ai)
+[Try locally](#2-try-the-demo) · [Source on GitHub](https://github.com/littleDogWang/05-medical-triage-booking) · [Build with AI](#build-with-ai)
 
 TypeScript · Web · Next.js 16 / React 19 · Agora Conversational AI
 
@@ -87,8 +87,8 @@ For local tool-enabled development only, install cloudflared separately and run 
 From a terminal, clone this scenario rather than the generic starter:
 
 ```bash
-git clone https://github.com/littleDogWang/08-medical-triage-booking.git
-cd 08-medical-triage-booking
+git clone https://github.com/littleDogWang/05-medical-triage-booking.git
+cd 05-medical-triage-booking
 pnpm install --frozen-lockfile
 cp env.local.example .env.local
 ```
@@ -114,7 +114,7 @@ Open [http://localhost:3000](http://localhost:3000), choose **Talk to clinic rec
 
 ### Tools and result semantics
 
-The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/08-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
+The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/05-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
 
 The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled. The supplied browser already handles this startup sequence. See [the scenario guide](docs/scenario/README.md) for additional behavior and contracts.
 
@@ -145,7 +145,7 @@ After cloning this repository, paste the following into your coding agent from y
 ```text
 Implement the Clinic Reception & Appointments recipe in my application.
 
-Read RECIPE.md in the cloned 08-medical-triage-booking repository first, then inspect
+Read RECIPE.md in the cloned 05-medical-triage-booking repository first, then inspect
 its scenario modules, tool contracts and invite route. Read docs/ai/RECIPE.md
 and AGENTS.md in that repository for integration constraints.
 
@@ -173,8 +173,8 @@ These commands describe the repository's supported scripts; they do not attest t
 ### Docker deployment
 
 ```bash
-docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 08-medical-triage-booking:local .
-docker run --rm -p 3000:3000 --env-file .env.local 08-medical-triage-booking:local
+docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 05-medical-triage-booking:local .
+docker run --rm -p 3000:3000 --env-file .env.local 05-medical-triage-booking:local
 ```
 
 Replace `YOUR_AGORA_APP_ID` with the public App ID used in `.env.local`. Next.js embeds that identifier in the browser bundle, so changing projects requires rebuilding the image. The App Certificate is supplied only at container runtime. A container restart does not preserve process memory. This image does not add a shared state service.

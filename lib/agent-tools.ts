@@ -34,7 +34,7 @@ export function getScenarioTools(_scenarioId: string, sessionId: string, baseUrl
     function: { name, description, parameters: { type: 'object', properties, required: Object.keys(properties), additionalProperties: false } },
     server: {
       method: 'POST',
-      url: `${origin}/api/scenarios/08-medical-triage-booking/sessions/${encodeURIComponent(sessionId)}/${name}`,
+      url: `${origin}/api/scenarios/05-medical-triage-booking/sessions/${encodeURIComponent(sessionId)}/${name}`,
       body: Object.fromEntries(Object.keys(properties).map((key) => [key, `{{args.${key}}}`])),
     },
   });

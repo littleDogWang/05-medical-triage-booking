@@ -2,7 +2,7 @@ import type { ScenarioPresentation } from '@/types/presentation';
 export type { ScenarioPresentation } from '@/types/presentation';
 
 export const presentation: ScenarioPresentation = {
-  "id": "08-medical-triage-booking",
+  "id": "05-medical-triage-booking",
   "name": "Clinic Appointment Assistant",
   "purpose": "Clinic information and simulated appointments",
   "headline": [
@@ -45,7 +45,7 @@ export const presentation: ScenarioPresentation = {
     "sourceUrl": "https://github.com/AgoraIO-Conversational-AI/agent-quickstart-nextjs",
     "runCommand": "pnpm install\nagora login\nagora project use <your-project>\nagora project env write .env.local\npnpm dev",
     "skillsCommand": "npx skills add github:AgoraIO/skills",
-    "assistantPrompt": "Use Agora Skills to work in the existing 08-medical-triage-booking scenario checkout. Preserve the working Agora session lifecycle and business contracts. Help me adapt its business data and assistant instructions for my workflow.",
+    "assistantPrompt": "Use Agora Skills to work in the existing 05-medical-triage-booking scenario checkout. Preserve the working Agora session lifecycle and business contracts. Help me adapt its business data and assistant instructions for my workflow.",
     "docsUrl": "https://docs.agora.io/en/ai/build/build-server-client",
     "sdkUrl": "https://www.npmjs.com/package/agora-agents",
     "consoleUrl": "https://console.agora.io/",

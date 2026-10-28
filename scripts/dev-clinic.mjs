@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 const nextPort = Number(process.env.PORT ?? 3000);
 if (!Number.isInteger(nextPort) || nextPort < 1 || nextPort > 65535) throw new Error('PORT must be a valid local port.');
 const actions = '(read_clinic_information|identify_patient|find_open_times|book_appointment|manage_appointment|record_emergency_escalation)';
-const toolPath = new RegExp(`^/api/scenarios/08-medical-triage-booking/sessions/[0-9a-f-]{36}/${actions}$`);
+const toolPath = new RegExp(`^/api/scenarios/05-medical-triage-booking/sessions/[0-9a-f-]{36}/${actions}$`);
 
 // The public relay exposes only the six simulated clinic tools, never invite,
 // token generation, session creation, source files or the rest of the app.

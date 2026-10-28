@@ -6,12 +6,12 @@
 
 | Field | Value |
 | --- | --- |
-| Repo | `littleDogWang/08-medical-triage-booking` |
+| Repo | `littleDogWang/05-medical-triage-booking` |
 | Type | `frontend-app` |
 | Language | TypeScript, Next.js 16 App Router, React 19 |
 | Deploy Target | Single Node.js process or Docker; see architecture for state/persistence limits |
 | Owner | littleDogWang; upstream Agora Community attribution retained |
-| Last Reviewed | 2026-10-27 |
+| Last Reviewed | 2026-10-28 |
 | Recipe Role | base (standalone scenario derived from the official voice quickstart) |
 | Recipe Version | 0.2.0 |
 | Recipe Status | draft |

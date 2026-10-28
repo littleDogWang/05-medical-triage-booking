@@ -3,7 +3,7 @@ import type { ScenarioConfig } from '../types/agent-config';
 import clinicData from './medical-triage-booking/clinic.json';
 
 export const config: ScenarioConfig = {
-  id: '08-medical-triage-booking',
+  id: '05-medical-triage-booking',
   title: 'Clinic reception and appointments',
   role: `appointment receptionist for ${clinicData.clinic}.`,
   workflow: `Handle a single clinic call with concrete tools and short, natural spoken replies.

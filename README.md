@@ -16,8 +16,8 @@ Read the [eight-part recipe](RECIPE.md) for example conversations and business c
 ## Run It
 
 ```bash
-git clone https://github.com/littleDogWang/08-medical-triage-booking.git
-cd 08-medical-triage-booking
+git clone https://github.com/littleDogWang/05-medical-triage-booking.git
+cd 05-medical-triage-booking
 pnpm install --frozen-lockfile
 cp env.local.example .env.local
 ```
@@ -107,7 +107,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for topology, ownership and deployment de
 | State date, doctor and time preferences | Search eligible openings, offer at most two and preserve unchanged preferences. | Returned slots in America/New_York, with unsupported preferences explained. |
 | Choose or change an appointment | Book, cancel or atomically reschedule after the relevant confirmation. | The exact simulated doctor/date/time from a successful tool response. |
 
-The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/08-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
+The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/05-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
 
 The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled.
 
@@ -138,8 +138,8 @@ Native hosting runs `pnpm run build` and `pnpm run start` on the documented Node
 ### Docker
 
 ```bash
-docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 08-medical-triage-booking:local .
-docker run --rm -p 3000:3000 --env-file .env.local 08-medical-triage-booking:local
+docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 05-medical-triage-booking:local .
+docker run --rm -p 3000:3000 --env-file .env.local 05-medical-triage-booking:local
 ```
 
 Replace `YOUR_AGORA_APP_ID` with the public App ID used in `.env.local`. Next.js embeds that identifier in the browser bundle, so changing projects requires rebuilding the image. The App Certificate is supplied only at container runtime. A container restart does not preserve process memory. This image does not add a shared state service.

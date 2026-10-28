@@ -91,7 +91,7 @@ The upstream baseline is [AgoraIO-Conversational-AI/agent-quickstart-nextjs](htt
 - `GET /api/generate-agora-token` returns `{ token, uid, channel }`.
 - `POST /api/invite-agent` starts the scenario Agent. The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled.
 - `POST /api/stop-conversation` accepts `{ agent_id }`; already-stopping states are idempotent.
-- The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/08-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
+- The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/05-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
 - Local environment: `env.local.example` → `.env.local`; required keys are the public App ID and server-only App Certificate. [All variables](L1/01_setup.md) include optional business-tool/storage paths.
 - Node.js 22+, pnpm 9.15.9; canonical checks are `pnpm run verify`. `pnpm run verify:docker` is a separate image/startup/scenario-route check.
 - The simulated clinic uses one Node process and process-local sessions that expire after two hours. Restart resets the fixtures; multiple workers do not share appointments. A hosted demo needs a long-lived process, and a production integration needs shared durable state.
@@ -102,7 +102,7 @@ Component layout, presentation copy, model/provider defaults, UI diagnostics and
 
 ## Consumer Onboarding Recipe
 
-1. Clone `https://github.com/littleDogWang/08-medical-triage-booking.git` and change into `08-medical-triage-booking`.
+1. Clone `https://github.com/littleDogWang/05-medical-triage-booking.git` and change into `05-medical-triage-booking`.
 2. With Node.js 22+ and pnpm 9.15.9, run `pnpm install --frozen-lockfile`.
 3. Copy `env.local.example` to `.env.local` only on a clean clone; fill the two Agora project credentials. Alternatively use the ready CLI's template-aware `agora quickstart env write . --template nextjs --project <your-project> --json`.
 4. Run `pnpm run doctor`, then `pnpm run dev`. Open http://localhost:3000 and choose the scenario start action.

@@ -1,6 +1,6 @@
 # Agent Development Guide
 
-This guide is for coding agents making changes in `08-medical-triage-booking`.
+This guide is for coding agents making changes in `05-medical-triage-booking`.
 
 
 ## U.S. scenario content
@@ -31,13 +31,13 @@ The sections below (Start Here, Patterns, Anti-Patterns, etc.) remain the canoni
 - Use [docs/ai/L1/L2/transcript_pipeline.md](docs/ai/L1/L2/transcript_pipeline.md) for transcript and RTM behavior.
 - For layout and responsibilities inside `components/`, `app/api/`, and `lib/`, use [docs/ai/L1/03_code_map.md](docs/ai/L1/03_code_map.md) and [docs/ai/L1/02_architecture.md](docs/ai/L1/02_architecture.md).
 
-## Scenario 08 appointment workflow
+## Scenario 05 appointment workflow
 
 This independent repo runs the simulated Agora Family Clinic. See
 `docs/scenario/README.md` for identities and API payloads.
 `clinic.ts` owns patient identity, doctor eligibility, rolling slots and
 appointments in a per-call process-local store. Six typed REST tools under
-`app/api/scenarios/08-medical-triage-booking/sessions/` enforce the workflow.
+`app/api/scenarios/05-medical-triage-booking/sessions/` enforce the workflow.
 Keep server-bound session scope, identity checks, slot selection, caller
 confirmation, duplicate handling and atomic rescheduling intact. An escalated
 call cannot return to ordinary scheduling. Never replace actual state changes

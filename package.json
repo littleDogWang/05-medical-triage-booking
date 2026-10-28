@@ -1,5 +1,5 @@
 {
-  "name": "08-medical-triage-booking",
+  "name": "05-medical-triage-booking",
   "version": "0.1.0",
   "description": "Handle clinic questions and a complete simulated appointment conversation.",
   "private": true,

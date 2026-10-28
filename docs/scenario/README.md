@@ -50,7 +50,7 @@ pediatric openings.
 ## Tools
 
 All six tools are POST endpoints under
-`/api/scenarios/08-medical-triage-booking/sessions/{sessionId}/{toolName}`.
+`/api/scenarios/05-medical-triage-booking/sessions/{sessionId}/{toolName}`.
 The server embeds the opaque session ID in each tool URL; the LLM cannot choose
 another call's scope.
 
@@ -64,7 +64,7 @@ another call's scope.
 | `record_emergency_escalation` | `reported_symptoms` |
 
 For direct local HTTP testing, POST to
-`/api/scenarios/08-medical-triage-booking/sessions` to create a fictional call.
+`/api/scenarios/05-medical-triage-booking/sessions` to create a fictional call.
 It returns `session_id`, the clinic date/time and timezone. Use this ID in the
 paths above. This local testing endpoint never creates an Agora agent.
 

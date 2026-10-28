@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { POST } from '../app/api/scenarios/08-medical-triage-booking/sessions/[sessionId]/[action]/route';
+import { POST } from '../app/api/scenarios/05-medical-triage-booking/sessions/[sessionId]/[action]/route';
 import { createClinicSession, deleteClinicSession } from '../lib/medical-triage-booking/clinic';
 import { clinicToolOrigin, getScenarioTools } from '../lib/agent-tools';
 

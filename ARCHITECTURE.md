@@ -22,7 +22,7 @@ Scenario routes -> process-local state
 2. The browser logs into/subscribes to RTM and invites the managed Agent. The browser supplies `requester_id` and `channel_name`; the invite route creates and binds the simulated clinic session when tools are enabled.
 3. RTC hooks join and publish the microphone after the StrictMode guard; the toolkit binds both transports.
 4. Audio travels over RTC. Transcript, Agent state, errors and reported latency travel over RTM.
-5. The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/08-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
+5. The tools are `read_clinic_information`, `identify_patient`, `find_open_times`, `book_appointment`, `manage_appointment` and `record_emergency_escalation`. Each uses `POST /api/scenarios/05-medical-triage-booking/sessions/{sessionId}/{toolName}` with the call ID fixed by the server. Only a slot from the latest search can be booked. A failed move preserves the original appointment.
 6. Renewal keeps the joined RTC UID, RTM login UID and channel consistent.
 7. Ending stops the Agent, logs out RTM and unmounts hook-owned RTC/microphone resources. Retained evidence is not itself a saved business result.
 
@@ -45,8 +45,8 @@ The App Certificate stays in the Next.js server environment. Tokens are scoped/e
 Local development runs one Next.js process at http://localhost:3000 using `.env.local`. Native production uses `pnpm run build` then `pnpm run start`. Docker runs the same app as non-root UID 1001 on port 3000, without a reverse proxy inside the image. The simulated clinic uses one Node process and process-local sessions that expire after two hours. Restart resets the fixtures; multiple workers do not share appointments. A hosted demo needs a long-lived process, and a production integration needs shared durable state.
 
 ```bash
-docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 08-medical-triage-booking:local .
-docker run --rm -p 3000:3000 --env-file .env.local 08-medical-triage-booking:local
+docker build --build-arg NEXT_PUBLIC_AGORA_APP_ID=YOUR_AGORA_APP_ID -t 05-medical-triage-booking:local .
+docker run --rm -p 3000:3000 --env-file .env.local 05-medical-triage-booking:local
 ```
 
 Replace `YOUR_AGORA_APP_ID` with the public App ID used in `.env.local`. Next.js embeds that identifier in the browser bundle, so changing projects requires rebuilding the image. The App Certificate is supplied only at container runtime. A container restart does not preserve process memory. This image does not add a shared state service.
